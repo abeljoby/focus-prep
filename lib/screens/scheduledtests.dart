@@ -96,11 +96,12 @@ class GetTestsState extends State<GetTests> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text(data['StartDate'], style: const TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              Text(data['Course'],style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(data['Topic'], style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text('${data["Questions"]} questions'),
+              Text(data['StartDate']),
+              // Text(data['Course'],style: TextStyle(fontWeight: FontWeight.bold)),
               Text(data['StartTime']),
-              Text("Modules ${data['Modules'].toString().substring(1, data['Modules'].toString().length - 1)}"),
+              // Text("Modules ${data['Modules'].toString().substring(1, data['Modules'].toString().length - 1)}"),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

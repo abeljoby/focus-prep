@@ -119,14 +119,14 @@ class _TestResultsState extends State<TestResults> {
       body: Column(
         children: [
           Container(
-            height: 135,
+            // height: 135,
             width: double.infinity,
             decoration: const BoxDecoration(color:Color.fromARGB(255, 217, 217, 217),border: Border(bottom: BorderSide(color:Color.fromARGB(255,192,192,192),width: 5))),
             padding: const EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Date: ${testData["StartDate"]}\nTime: ${testData["StartTime"]}\nDuration: ${testData["Duration"]}\nCourse: ${testData["Course"]}\nModules: ${testData["Modules"].toString().substring(1, testData['Modules'].toString().length - 1)}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
+                Text('Date: ${testData["StartDate"]}\nTime: ${testData["StartTime"]}\nDuration: ${testData["Duration"]}\nTopic: ${testData["Topic"]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
               ],
             ),
           ),

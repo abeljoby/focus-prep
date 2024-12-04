@@ -146,10 +146,12 @@ class GetTestsState extends State<GetTests> {
               children: [
                 // if(!isOver(data['StartTime'], data['Duration'])) ...[
                   // Text(data['StartDate'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 8),
-                  Text(data['Course'],style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(data['Topic'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                  Text('${data["Questions"]} questions'),
+                  Text(data['StartDate']),
+                  // Text(data['Course'],style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(data['StartTime']),
-                  Text("Modules ${data['Modules'].toString().substring(1, data['Modules'].toString().length - 1)}"),
+                  // Text("Modules ${data['Modules'].toString().substring(1, data['Modules'].toString().length - 1)}"),
                   const SizedBox(height: 16),
                   FutureBuilder(
                     future: isAttended(document),
@@ -183,7 +185,12 @@ class GetTestsState extends State<GetTests> {
                             );
                           }
                           else {
-                            return const Divider();
+                            return const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text('Test not attended', style: TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          );
                           }
                         }
                       }

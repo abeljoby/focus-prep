@@ -22,10 +22,11 @@ class _CreateTestState extends State<CreateTest> {
   // final courses = {'DMS':'Discrete Mathematical Structures', 'DS':'Data Structures','COA':'Computer Organization and Architecture', 'DBMS':'Database Management Systems', 'OS':'Operating Systems', 'FLAT':'Formal Languages and Automata Theory'};
   String? selectedduration;
   String? selecteddept;
+  String? selectedtopic;
   String? selectedcourse;
   int? questions = 0;
-  late List<String> selectedmodules;
-  late List<String> classrooms;
+  List<String> selectedmodules = [];
+  List<String> classrooms = [];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -92,29 +93,32 @@ class _CreateTestState extends State<CreateTest> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start, 
               children: [
-                DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    labelText: "Classroom",
-                  ),
-                  borderRadius: BorderRadius.circular(20.0),
-                  items: classrooms
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (val) {
-                    selectedduration = val;
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value == 'Select') {
-                      return 'Please select a duration';
-                    }
-                    return null;
-                  },
-                ),
+                // DropdownButtonFormField(
+                //   decoration: const InputDecoration(
+                //     labelText: "Classroom",
+                //     border: OutlineInputBorder(),
+                //   ),
+                //   borderRadius: BorderRadius.circular(20.0),
+                //   items: classrooms
+                //       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                //       .toList(),
+                //   onChanged: (val) {
+                //     selectedduration = val;
+                //   },
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty || value == 'Select') {
+                //       return 'Please select a duration';
+                //     }
+                //     return null;
+                //   },
+                // ),
+                const SizedBox(height:20),
                 TextFormField(
                   controller: dateInput,
                   decoration: const InputDecoration(
                     // icon: Icon(Icons.calendar_today),
-                    labelText: "Enter Date"
+                    labelText: "Enter Date",
+                    border: OutlineInputBorder(),
                   ),
                   readOnly: true,
                   //set it true, so that user will not able to edit text
@@ -143,11 +147,13 @@ class _CreateTestState extends State<CreateTest> {
                     return null;
                   },
                 ),
+                const SizedBox(height:20),
                 TextFormField(
                   controller: timeInput,
                   decoration: const InputDecoration(
                     // icon: Icon(Icons.access_time),
-                    labelText: "Enter Start Time"
+                    labelText: "Enter Start Time",
+                    border: OutlineInputBorder(),
                   ),
                   readOnly: true,
                   //set it true, so that user will not able to edit text
@@ -169,9 +175,11 @@ class _CreateTestState extends State<CreateTest> {
                     return null;
                   },
                 ),
+                const SizedBox(height:20),
                 DropdownButtonFormField(
                   decoration: const InputDecoration(
                     labelText: "Duration",
+                    border: OutlineInputBorder(),
                   ),
                   borderRadius: BorderRadius.circular(20.0),
                   items: durations
@@ -187,76 +195,95 @@ class _CreateTestState extends State<CreateTest> {
                     return null;
                   },
                 ),
-                DropdownButtonFormField(
-                  decoration: const InputDecoration(
-                    labelText: "Department",
-                  ),
-                  borderRadius: BorderRadius.circular(20.0),
-                  items: departments.keys
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      selecteddept = value;
-                      selectedcourse = null; // Reset subCategory when category changes
-                      courses = getSubCategories(value!); // Update subCategories based on selected category
-                    });
-                  },
+                // DropdownButtonFormField(
+                //   decoration: const InputDecoration(
+                //     labelText: "Department",
+                //   ),
+                //   borderRadius: BorderRadius.circular(20.0),
+                //   items: departments.keys
+                //       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                //       .toList(),
+                //   onChanged: (value) {
+                //     setState(() {
+                //       selecteddept = value;
+                //       selectedcourse = null; // Reset subCategory when category changes
+                //       courses = getSubCategories(value!); // Update subCategories based on selected category
+                //     });
+                //   },
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty || value == 'Select') {
+                //       return 'Please select a department';
+                //     }
+                //     return null;
+                //   },
+                // ),
+                // DropdownButtonFormField(
+                //   value: selectedcourse,
+                //   decoration: const InputDecoration(
+                //     labelText: "Course",
+                //   ),
+                //   borderRadius: BorderRadius.circular(20.0),
+                //   items: courses
+                //       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                //       .toList(),
+                //   onChanged: (value) {
+                //     setState(() {
+                //       selectedcourse = value;
+                //     });
+                //   },
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty || value == 'Select') {
+                //       return 'Please select a course';
+                //     }
+                //     return null;
+                //   },
+                // ),
+                // const SizedBox(height: 20),
+                // const Align(
+                //   alignment: Alignment.centerLeft,
+                //   child: Text('Modules',style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 79, 77, 77)),)
+                // ),
+                // MultiSelectDropDown(
+                //   controller: _controller,
+                //   options: const <ValueItem>[
+                //     ValueItem(label: 'Module 1', value: "1"),
+                //     ValueItem(label: 'Module 2', value: "2"),
+                //     ValueItem(label: 'Module 3', value: "3"),
+                //     ValueItem(label: 'Module 4', value: "4"),
+                //     ValueItem(label: 'Module 5', value: "5"),
+                //   ],
+                //   maxItems: 5,
+                //   // selectedOptions: const [ValueItem(label: 'Module 1', value: 1)],
+                //   selectionType: SelectionType.multi,
+                //   chipConfig: const ChipConfig(wrapType: WrapType.wrap),
+                //   dropdownHeight: 250,
+                //   optionTextStyle: const TextStyle(fontSize: 16),
+                //   selectedOptionIcon: const Icon(Icons.check_circle),
+                //   inputDecoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color.fromARGB(255, 79, 77, 77)))),
+                //   padding: const EdgeInsets.all(0),
+                //   onOptionSelected:(options) {
+                //     selectedmodules = _controller.selectedOptions.map((item) => item.value as String).toList();
+                //   },
+                // ),
+                const SizedBox(height:20),
+                TextFormField(
                   validator: (value) {
-                    if (value == null || value.isEmpty || value == 'Select') {
-                      return 'Please select a department';
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a topic';
                     }
                     return null;
                   },
-                ),
-                DropdownButtonFormField(
-                  value: selectedcourse,
                   decoration: const InputDecoration(
-                    labelText: "Course",
+                    labelText: 'Topic',
+                    border: OutlineInputBorder(),
                   ),
-                  borderRadius: BorderRadius.circular(20.0),
-                  items: courses
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (value) {
+                  onChanged: (String? value) {
                     setState(() {
-                      selectedcourse = value;
+                      selectedtopic = value;
                     });
                   },
-                  validator: (value) {
-                    if (value == null || value.isEmpty || value == 'Select') {
-                      return 'Please select a course';
-                    }
-                    return null;
-                  },
                 ),
-                const SizedBox(height: 20),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Modules',style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 79, 77, 77)),)
-                ),
-                MultiSelectDropDown(
-                  controller: _controller,
-                  options: const <ValueItem>[
-                    ValueItem(label: 'Module 1', value: "1"),
-                    ValueItem(label: 'Module 2', value: "2"),
-                    ValueItem(label: 'Module 3', value: "3"),
-                    ValueItem(label: 'Module 4', value: "4"),
-                    ValueItem(label: 'Module 5', value: "5"),
-                  ],
-                  maxItems: 5,
-                  // selectedOptions: const [ValueItem(label: 'Module 1', value: 1)],
-                  selectionType: SelectionType.multi,
-                  chipConfig: const ChipConfig(wrapType: WrapType.wrap),
-                  dropdownHeight: 250,
-                  optionTextStyle: const TextStyle(fontSize: 16),
-                  selectedOptionIcon: const Icon(Icons.check_circle),
-                  inputDecoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color.fromARGB(255, 79, 77, 77)))),
-                  padding: const EdgeInsets.all(0),
-                  onOptionSelected:(options) {
-                    selectedmodules = _controller.selectedOptions.map((item) => item.value as String).toList();
-                  },
-                ),
+                const SizedBox(height:20),
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -264,12 +291,28 @@ class _CreateTestState extends State<CreateTest> {
                     }
                     return null;
                   },
-                  decoration: const InputDecoration(labelText: 'Number of Questions'),
-                  onChanged: (val) {
-                    questions = int.parse(val);
+                  decoration: const InputDecoration(
+                    labelText: 'Number of Questions',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                      questions = int.parse(value);
                   },
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 ),
+                // TextFormField(
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Please enter the number of questions';
+                //     }
+                //     return null;
+                //   },
+                //   decoration: const InputDecoration(labelText: 'Number of Questions'),
+                //   onChanged: (val) {
+                //     questions = int.parse(val);
+                //   },
+                //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                // ),
                 const SizedBox(height: 50,),
                 ElevatedButton(
                   onPressed: () {
@@ -282,6 +325,7 @@ class _CreateTestState extends State<CreateTest> {
                         "StartTime": timeInput.text,
                         "Duration": selectedduration,
                         "Department": selecteddept,
+                        "Topic": selectedtopic,
                         // "Batch": "2023-24"
                       };
                       Navigator.push(context,MaterialPageRoute(builder: ((context) => GenerateQuestionPaper(data: test))));

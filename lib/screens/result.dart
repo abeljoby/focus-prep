@@ -86,7 +86,7 @@ class _ResultPageState extends State<ResultPage> {
                       color: Colors.indigo,
                       child: Center(
                         child: Text(
-                          testData['Course'],
+                          testData['Topic'],
                           style: TextStyle(fontSize: 20, color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
@@ -95,11 +95,11 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(10),
-                    height: 100,
+                    // height: 100,
                     width: double.infinity,
                     color: Colors.white,
                     child: Text(
-                      '${testData['StartTime']}\n${testData['StartDate']}\nCourse: ${testData['Course']}\nModules ${testData['Modules'].toString().substring(1, testData['Modules'].toString().length - 1)}',
+                      '${testData['StartTime']}\n${testData['StartDate']}\nTopic: ${testData['Topic']}',
                       style: TextStyle(color: Colors.black, fontSize: 15),
                     ),
                   ),

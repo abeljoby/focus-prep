@@ -74,14 +74,14 @@ class _CorrectedQuestionPaperState extends State<CorrectedQuestionPaper> {
       body: Column(
         children: [
           Container(
-            height: 135,
+            // height: 135,
             width: double.infinity,
             decoration: const BoxDecoration(color:Color.fromARGB(255, 217, 217, 217),border: Border(bottom: BorderSide(color:Color.fromARGB(255,192,192,192),width: 5))),
             padding: const EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Date: ${dataCopy["StartDate"]} ${dataCopy["StartTime"]}\nName: $name\nCourse: ${dataCopy["Course"]}\nModules: ${dataCopy["Modules"].toString().substring(1, dataCopy['Modules'].toString().length - 1)}\nResult: ${result[0]}/${result[1]+result[2]+result[3]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
+                Text('Date: ${dataCopy["StartDate"]} ${dataCopy["StartTime"]}\nName: $name\nResult: ${result[0]}/${result[1]+result[2]+result[3]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
               ],
             ),
           ),
@@ -109,7 +109,7 @@ class _CorrectedQuestionPaperState extends State<CorrectedQuestionPaper> {
                             Text("2. ${ques['Option2']}"),
                             Text("3. ${ques['Option3']}"),
                             Text("4. ${ques['Option4']}"),
-                            Text("Module: ${ques['Module']}"),
+                            // Text("Module: ${ques['Module']}"),
                             const SizedBox(height: 8),
                             if(ques['CorrectOption'] == answers[ques['qno']-1]) ...[
                             Text("Answered Option: ${answers[ques['qno']-1].substring(6)}",style: TextStyle(color: Colors.green))

@@ -43,14 +43,14 @@ class _QuestionPaperState extends State<QuestionPaper> {
       body: Column(
         children: [
           Container(
-            height: 135,
+            // height: 135,
             width: double.infinity,
             decoration: const BoxDecoration(color:Color.fromARGB(255, 217, 217, 217),border: Border(bottom: BorderSide(color:Color.fromARGB(255,192,192,192),width: 5))),
             padding: const EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Date: ${dataCopy["StartDate"]}\nTime: ${dataCopy["StartTime"]}\nDuration: ${dataCopy["Duration"]}\nCourse: ${dataCopy["Course"]}\nModules: ${dataCopy["Modules"].toString().substring(1, dataCopy['Modules'].toString().length - 1)}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
+                Text('Date: ${dataCopy["StartDate"]}\nTime: ${dataCopy["StartTime"]}\nDuration: ${dataCopy["Duration"]}\nNo. of questions: ${dataCopy["Questions"]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
               ],
             ),
           ),
@@ -78,7 +78,7 @@ class _QuestionPaperState extends State<QuestionPaper> {
                             Text("2. ${ques['Option2']}"),
                             Text("3. ${ques['Option3']}"),
                             Text("4. ${ques['Option4']}"),
-                            Text("Module: ${ques['Module']}"),
+                            // Text("Module: ${ques['Module']}"),
                             const SizedBox(height: 8),
                             Text("Correct Option: ${ques['CorrectOption'].substring(6)}", style: const TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(height: 8),

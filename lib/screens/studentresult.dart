@@ -71,14 +71,14 @@ class _StudentResultState extends State<StudentResult> {
             return Column(
               children: [
                 Container(
-                  height: 135,
+                  // height: 135,
                   width: double.infinity,
                   decoration: const BoxDecoration(color:Color.fromARGB(255, 217, 217, 217),border: Border(bottom: BorderSide(color:Color.fromARGB(255,192,192,192),width: 5))),
                   padding: const EdgeInsets.all(15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Date: ${testData["StartDate"]} ${testData["StartTime"]}\nName: $name\nCourse: ${testData["Course"]}\nModules: ${testData["Modules"].toString().substring(1, testData['Modules'].toString().length - 1)}\nResult: ${result[0]}/${result[1]+result[2]+result[3]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
+                      Text('Date: ${testData["StartDate"]} ${testData["StartTime"]}\nName: $name\nTopic: ${testData["Topic"]}\nResult: ${result[0]}/${result[1]+result[2]+result[3]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
                     ],
                   ),
                 ),

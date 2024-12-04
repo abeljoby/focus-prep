@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:ccwassist/env/env.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ccwassist/firebase_options.dart';

@@ -187,7 +187,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          '${testData['Course']}',
+          '${testData['Topic']}',
           style: TextStyle(fontSize: 18),
         ),
         backgroundColor: Colors.amber,
@@ -385,7 +385,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                 color: Colors.amber,
                 child: Center(
                   child: Text(
-                    testData['Course'],
+                    testData['Topic'],
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20),
                   ),
