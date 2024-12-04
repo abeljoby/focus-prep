@@ -76,6 +76,7 @@ flutter:
     - images/ritgate.jpg
     - images/ccwassisticon.jpg
     - images/classroom.jpg
+    - images/objectivetest.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

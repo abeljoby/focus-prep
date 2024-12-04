@@ -1,11 +1,12 @@
+import 'package:ccwassist/screens/createtest.dart';
 import 'package:ccwassist/screens/studentclassroom.dart';
 import 'package:ccwassist/screens/homewrapper.dart';
+import 'package:ccwassist/screens/teacherclassroom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'upcomingtests.dart';
-import 'feedback.dart';
 import 'profile.dart';
 import 'testhistory.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -63,7 +64,7 @@ class _HomeStudentState extends State<HomeStudent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Home', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Home', style: TextStyle(fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
@@ -87,6 +88,65 @@ class _HomeStudentState extends State<HomeStudent> {
               const SizedBox(height: 20),
               Text('Welcome, ${name}'),
               const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Material(
+                    color: Colors.amber,
+                    elevation: 7.0,
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox( // Set specific height and width
+                      height: 80.0,
+                      width: 150.0,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context,MaterialPageRoute(builder: ((context) => const CreateTest())));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Text(
+                              'Create New Test',
+                              style: TextStyle(fontSize: 19.0),
+                              textAlign: TextAlign.center
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Material(
+                  color: Colors.amber,
+                  elevation: 7.0,
+                  borderRadius: BorderRadius.circular(20),
+                  child: SizedBox( // Set specific height and width
+                    height: 80.0,
+                    width: 150.0,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context,MaterialPageRoute(builder: ((context) => const Classroom())));
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Center(
+                          child: Text(
+                            'Classrooms',
+                            style: TextStyle(fontSize: 19.0),
+                            textAlign: TextAlign.center
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              ],
+              ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Material(
@@ -117,65 +177,6 @@ class _HomeStudentState extends State<HomeStudent> {
                     ),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Material(
-                    color: Colors.amber,
-                    elevation: 7.0,
-                    borderRadius: BorderRadius.circular(20),
-                    child: SizedBox( // Set specific height and width
-                      height: 80.0,
-                      width: 150.0,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: ((context) => const StudentClassroom())));
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Center(
-                            child: Text(
-                              'Classrooms',
-                              style: TextStyle(fontSize: 19.0),
-                              textAlign: TextAlign.center
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Material(
-                    color: Colors.amber,
-                    elevation: 7.0,
-                    borderRadius: BorderRadius.circular(20),
-                    child: SizedBox( // Set specific height and width
-                      height: 80.0,
-                      width: 150.0,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: ((context) => const Courses())));
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Center(
-                            child: Text(
-                              'Courses',
-                              style: TextStyle(fontSize: 19.0),
-                              textAlign: TextAlign.center
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),

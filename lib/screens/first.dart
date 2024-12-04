@@ -25,7 +25,7 @@ class _FirstState extends State<First> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "CCW ASSIST",
+                        "Focus Prep",
                         style: TextStyle(
                           fontSize: 50,
                           fontWeight: FontWeight.bold,

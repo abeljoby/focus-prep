@@ -75,13 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 80,
             ),
             ListTile(
-              title: Text("KTU ID: $ktuID",
-                style: TextStyle(fontSize: 15),
-              ),
-              textColor: Colors.black,
-            ),
-            ListTile(
-              title: Text("Department: $dept",
+              title: Text("User ID: $ktuID",
                 style: TextStyle(fontSize: 15),
               ),
               textColor: Colors.black,

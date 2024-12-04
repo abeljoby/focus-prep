@@ -11,7 +11,6 @@ class CreateClassroom extends StatefulWidget {
 }
 
 class CreateClassroomState extends State<CreateClassroom> {
-  String? Department;
   String? ClassName;
   String? classroomCode;
 
@@ -35,8 +34,6 @@ class CreateClassroomState extends State<CreateClassroom> {
   }
 
   final _formKey = GlobalKey<FormState>();
-
-  final departments = {'CSE':'Computer Science and Engineering', 'ECE':'Electronics and Communications Engineering','EEE':'Electrical and Electronics Engineering', 'ME':'Mechanical Engineering', 'CE':'Civil Engineering'};
 
   String generateCode(int length) {
     const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -66,7 +63,6 @@ class CreateClassroomState extends State<CreateClassroom> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Text("Give your classroom a name and select the department"),
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -85,29 +81,6 @@ class CreateClassroomState extends State<CreateClassroom> {
                     },
                   ),
                   const SizedBox(height:20),
-                  DropdownButtonFormField<String>(
-                    validator: (value) {
-                      if (value == null || value.isEmpty || value == 'Select') {
-                        return 'Please select a department';
-                      }
-                      return null;
-                    },
-                    hint: const Text("Select"),
-                    value: Department,
-                    items: departments.keys
-                      .map((e) => DropdownMenuItem(value: departments[e], child: Text(e)))
-                      .toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        Department = newValue;
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Department',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height:20),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: ElevatedButton(
@@ -119,7 +92,6 @@ class CreateClassroomState extends State<CreateClassroom> {
                           );
                           final classroom = <String, dynamic>{
                             "Name": ClassName,
-                            "Department": Department,
                             "Code": classroomCode,
                             "Teacher": {"Name":name,"ktuID":ktuID},
                             "Students": [],

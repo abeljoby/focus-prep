@@ -29,17 +29,33 @@ class _LoginPageState extends State<LoginPage> {
         // centerTitle: true,
         backgroundColor: Colors.amber,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Image(image: AssetImage("images/ritgate.jpg")),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Login(),
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //     children: [
+      //       const Image(image: AssetImage("images/ritgate.jpg")),
+      //       // const SizedBox(height: 20),
+      //       Padding(
+      //         padding: const EdgeInsets.all(20.0),
+      //         child: Login(),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Image(image: AssetImage("images/ritgate.jpg")),
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 400, // Adjust height as needed
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Login(),
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -53,13 +69,13 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // const Divider(thickness: 5,color: Colors.black,),
-          const SizedBox( height: 30 ),
+          const SizedBox(height: 30),
           TextField(
             controller: _email,
             style: const TextStyle(fontSize: 20),
             decoration: InputDecoration(
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0)),
+                borderRadius: BorderRadius.circular(15.0)),
               labelText: "Email",
               hintText: "Enter Email ID",
             ),
@@ -70,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
             style: const TextStyle(fontSize: 20),
             decoration: InputDecoration(
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0)),
+                  borderRadius: BorderRadius.circular(15.0)),
               labelText: "Password",
               hintText: "Enter Password",
             ),
@@ -88,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontSize: 20),
             ),
           ),
-          const SizedBox(height: 40),
+          // const SizedBox(height: 40),
         ],
       )
     );

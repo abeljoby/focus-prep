@@ -77,59 +77,9 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
     // Convert to a list of maps for easier access
     final questions = quizArray.cast<Map<String, dynamic>>();
 
-    // print(questions.length);
-
-    // for (var question in questions) {
-    //   print('Question ${question["qno"]}: ${question["Question"]}');
-    //   print('Options:');
-    //   print('1. ${question["Option1"]}');
-    //   print('2. ${question["Option2"]}');
-    //   print('3. ${question["Option3"]}');
-    //   print('4. ${question["Option4"]}');
-    //   print('Correct Option: ${question["CorrectOption"]}');
-    //   print('---');
-    // }
-
     // Convert the response string into a list of maps
     return questions;
   }
-
-  // Future<List<Map<String,dynamic>>> generateQuestionPaper(Map<String,dynamic> dataCopy) async {
-  //   late List<String> requiredModules = dataCopy["Modules"];
-  //   final QuerySnapshot<Map<String, dynamic>> snapshot = 
-  //   await FirebaseFirestore.instance.collection("question-bank")
-  //   .where("Course",isEqualTo: dataCopy["Course"])
-  //   .where("Module",whereIn: requiredModules)
-  //   .get();
-  //   List<Map<String,dynamic>> courseQuestions = snapshot.docs.map((q) => parseQuestion(q)).toList();
-  //   int totalQuestions = dataCopy['Questions'];
-
-  //   // Calculate number of questions per module
-  //   int questionsPerModule = totalQuestions ~/ requiredModules.length;
-  //   // Calculate number of extra questions
-  //   int extraQuestions = totalQuestions % requiredModules.length;
-  //   // Shuffle the questions
-  //   courseQuestions.shuffle();
-  //   List<Map<String,dynamic>> selectedQuestions = [];
-
-  //   // Select random questions from each required module
-  //   requiredModules.forEach((module) {
-  //     List<Map<String,dynamic>> moduleQuestions = courseQuestions.where((q) => q["Module"] == module).toList();
-  //     int questionsToAdd = questionsPerModule;
-  //     if (extraQuestions > 0) {
-  //       questionsToAdd++;
-  //       extraQuestions--;
-  //     }
-  //     questionsToAdd = min(questionsToAdd,moduleQuestions.length);
-  //     if(questionsToAdd < questionsPerModule) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('Insufficient number of question in module $module')),
-  //       );
-  //     }
-  //     selectedQuestions.addAll(moduleQuestions.sublist(0, questionsToAdd));
-  //   });
-  //   return selectedQuestions;
-  // }
 
   Map<String,dynamic> parseQuestion(QueryDocumentSnapshot<Map<String, dynamic>> q) {
     Map<String,dynamic> qdoc = q.data();
@@ -165,7 +115,6 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Text('Date: ${dataCopy["StartDate"]}\nTime: ${dataCopy["StartTime"]}\nDuration: ${dataCopy["Duration"]}\nCourse: ${dataCopy["Course"]}\nModules: ${dataCopy["Modules"].toString().substring(1, dataCopy['Modules'].toString().length - 1)}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
                 Text('Topic: ${dataCopy["Topic"]}\nNo. of questions: ${dataCopy["Questions"]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
               ],
             ),
@@ -195,7 +144,6 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
                             Text("2. ${ques['Option2']}"),
                             Text("3. ${ques['Option3']}"),
                             Text("4. ${ques['Option4']}"),
-                            // Text("Module: ${ques['Module']}"),
                             const SizedBox(height: 8),
                             Text("Correct Option: ${ques['CorrectOption'].substring(6)}", style: const TextStyle(fontWeight: FontWeight.bold)),
                             const SizedBox(height: 8),

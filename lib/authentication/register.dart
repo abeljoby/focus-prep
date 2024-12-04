@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,35 +13,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final name = TextEditingController();
-  final ktuid = TextEditingController();
   final email = TextEditingController();
-  final userid = TextEditingController();
   final password = TextEditingController();
   final confirmpassword = TextEditingController();
-  // final years = ['2023-24', '2024-25', '2025-26', '2026-27', '2027-28'];
-
-  Color StudentColorButton = Colors.black;
-  Color TeacherColorButton = Colors.white;
-  Color StudentTextButton = Colors.amber;
-  Color TeacherTextButton = Colors.black;
-  void clrchg() {
-    setState(() {
-      if (userType == "Student") {
-        StudentColorButton = Colors.black;
-        TeacherColorButton = Colors.white;
-        StudentTextButton = Colors.amber;
-        TeacherTextButton = Colors.black;
-      } else {
-        StudentColorButton = Colors.white;
-        TeacherColorButton = Colors.black;
-        StudentTextButton = Colors.black;
-        TeacherTextButton = Colors.amber;
-      }
-    });
-  }
-
-  // String? acdyr;
-  String? userType = "Student";
+  String userType = "Student";
 
   FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -54,52 +29,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
         backgroundColor: Colors.amber,
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child:Column(
+        child: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    userType = "Student";
-                    clrchg();
-                    //  StudentColorButton = Colors.black;
-                  });
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(StudentColorButton),
-                    foregroundColor:
-                        MaterialStateProperty.all(StudentTextButton)),
-                child: const Text(
-                  'Student',
-                  style: TextStyle(fontSize: 20),
-                ),
+              const Image(image: AssetImage("images/ritgate.jpg")),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: buildStudentFields(),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    userType = "Teacher";
-                    clrchg();
-                  });
-                },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(TeacherColorButton),
-                  foregroundColor: MaterialStateProperty.all(TeacherTextButton),
-                ),
-                child: const Text(
-                  'Teacher',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              const SizedBox(height: 20),
-              if (userType == "Student") 
-                buildStudentFields() 
-              else 
-                buildTeacherFields(),
             ],
           ),
         ),
@@ -112,6 +51,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       key: _formKey,
       child: Column(
         children: [
+          const SizedBox(height: 20),
           TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -120,52 +60,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
               return null;
             },
             controller: name,
-            decoration: const InputDecoration(labelText: 'Name of student'),
+            decoration: InputDecoration(labelText: 'Name',border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
           ),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your KTU ID';
-              }
-              return null;
-            },
-            controller: ktuid,
-            decoration: const InputDecoration(labelText: 'KTU ID'),
-          ),
-          // DropdownButton(
-          //   decoration: const InputDecoration(
-          //     labelText: "Academic Year",
-          //   ),
-          //   borderRadius: BorderRadius.circular(20.0),
-          //   items: years
-          //       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-          //       .toList(),
-          //   onChanged: (val) {
-          //     acdyr.text = val;
-          //   },
-          // ),
-          // DropdownButtonFormField<String>(
-          //   validator: (value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please select a year';
-          //     }
-          //     return null;
-          //   },
-          //   // hint: const Text("Select"),
-          //   value: acdyr,
-          //   items: years
-          //     .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-          //     .toList(),
-          //   onChanged: (String? newValue) {
-          //     setState(() {
-          //       acdyr = newValue;
-          //     });
-          //   },
-          //   decoration: const InputDecoration(
-          //     labelText: 'Course',
-          //     // border: OutlineInputBorder(),
-          //   ),
-          // ),
+          const SizedBox(height: 20),
           TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -174,18 +71,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
               return null;
             },
             controller: email,
-            decoration: const InputDecoration(labelText: 'Email ID'),
+            decoration: InputDecoration(labelText: 'Email ID',border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
           ),
-          // TextFormField(
-          //   validator: (value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please enter some text';
-          //     }
-          //     return null;
-          //   },
-          //   controller: userid,
-          //   decoration: const InputDecoration(labelText: 'Username'),
-          // ),
+          const SizedBox(height: 20),
           TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -194,9 +82,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
               return null;
             },
             controller: password,
-            decoration: const InputDecoration(labelText: 'Password'),
+            decoration: InputDecoration(labelText: 'Password',border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
             obscureText: true,
           ),
+          const SizedBox(height: 20),
           TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -208,9 +97,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
               return null;
             },
             controller: confirmpassword,
-            decoration: const InputDecoration(labelText: 'Confirm Password'),
+            decoration: InputDecoration(labelText: 'Confirm Password',border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
             obscureText: true,
           ),
+          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: ElevatedButton(
@@ -234,132 +124,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  Widget buildTeacherFields() {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your name';
-              }
-              return null;
-            },
-            controller: name,
-            decoration: const InputDecoration(labelText: 'Name of teacher'),
-          ),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your KTU ID';
-              }
-              return null;
-            },
-            controller: ktuid,
-            decoration: const InputDecoration(labelText: 'KTU ID'),
-          ),
-          // DropdownButtonFormField<String>(
-          //   validator: (value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please select a year';
-          //     }
-          //     return null;
-          //   },
-          //   // hint: const Text("Select"),
-          //   value: acdyr,
-          //   items: years
-          //     .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-          //     .toList(),
-          //   onChanged: (String? newValue) {
-          //     setState(() {
-          //       acdyr = newValue;
-          //     });
-          //   },
-          //   decoration: const InputDecoration(
-          //     labelText: 'Course',
-          //     // border: OutlineInputBorder(),
-          //   ),
-          // ),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email ID';
-              }
-              return null;
-            },
-            controller: email,
-            decoration: const InputDecoration(labelText: 'Email ID'),
-          ),
-          // TextFormField(
-          //   validator: (value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please enter some text';
-          //     }
-          //     return null;
-          //   },
-          //   controller: userid,
-          //   decoration: const InputDecoration(labelText: 'Username'),
-          // ),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a password';
-              }
-              return null;
-            },
-            controller: password,
-            decoration: const InputDecoration(labelText: 'Password'),
-            obscureText: true,
-          ),
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a password';
-              }
-              if (value != password.text) {
-                return 'The passwords entered do not match';
-              }
-              return null;
-            },
-            controller: confirmpassword,
-            decoration: const InputDecoration(labelText: 'Confirm Password'),
-            obscureText: true,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: ElevatedButton(
-              onPressed: () {
-                _register(context,email.text,password.text);
-                // Handle student registration logic
-              },
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(200, 50),
-                backgroundColor: Colors.amber,
-                foregroundColor: Colors.black,
-              ),
-              child: const Text(
-                'Submit',
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  String generateCode(int length) {
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random();
+    return String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   }
 
   void _register(BuildContext context, String mail, String pass) async {
+    String ktuid = generateCode(10);
     if (_formKey.currentState!.validate()) {
-      var studentSnapshot = await FirebaseFirestore.instance.collection("users").where("ktuID",isEqualTo: ktuid.text).get();
+      var studentSnapshot = await FirebaseFirestore.instance.collection("users").where("ktuID",isEqualTo: ktuid).get();
       if(studentSnapshot.docs.isEmpty) {
         try {
           final cred = await _auth.createUserWithEmailAndPassword(email: mail,password: pass);
           final user = <String, dynamic>{
-            // "batch": acdyr,
-            // "dept": "Computer Science and Engineering",
             "email": email.text,
-            "ktuID": ktuid.text,
+            "ktuID": ktuid,
             "name": name.text,
             "uid": cred.user?.uid,
             "userType": userType
@@ -376,7 +156,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       }
       else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text("An account already exists with the same KTU ID."),
           ),
         );

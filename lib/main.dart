@@ -16,9 +16,9 @@ import 'package:ccwassist/screens/first.dart';
 import 'package:ccwassist/screens/addquestion.dart';
 import 'package:ccwassist/screens/upcomingtests.dart';
 import 'package:ccwassist/screens/profile.dart';
-import 'package:ccwassist/screens/feedback.dart';
 import 'package:ccwassist/authentication/login.dart';
 import 'package:ccwassist/authentication/register.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 void main() async {
@@ -32,98 +32,41 @@ void main() async {
   OpenAI.requestsTimeOut = Duration(seconds: 60);
   OpenAI.showLogs = true;
 
-  // Future<List<Map<String, dynamic>>> generateQuestions({
-  //   required String topic,
-  //   required int numberOfQuestions,
-  // }) async {
-  //   final userMessage = OpenAIChatCompletionChoiceMessageModel(
-  //     content: [
-  //       OpenAIChatCompletionChoiceMessageContentItemModel.text(
-  //         // "Hello, I am a chatbot created by OpenAI. How are you today?",
-  //         '''
-  //         Generate a quiz on the topic "$topic" with $numberOfQuestions questions. Use the following JSON format:
-  //         {
-  //           "qno": 1,
-  //           "Question": "Your question here",
-  //           "Option1": "Option 1 text",
-  //           "Option2": "Option 2 text",
-  //           "Option3": "Option 3 text",
-  //           "Option4": "Option 4 text",
-  //           "CorrectOption": "Option1/Option2/Option3/Option4"
-  //         }
-  //         '''
-  //       ),
-  //     ],
-  //     role: OpenAIChatMessageRole.user,
-  //   );
-
-  //   final systemMessage = OpenAIChatCompletionChoiceMessageModel(
-  //     content: [
-  //     OpenAIChatCompletionChoiceMessageContentItemModel.text(
-  //       "You are a quiz generator.",
-  //     ),
-  //     ],
-  //     role: OpenAIChatMessageRole.assistant,
-  //   );
-
-  //   final requestMessages = [
-  //     systemMessage,
-  //     userMessage,
-  //   ];
-
-  //   OpenAIChatCompletionModel chatCompletion = await OpenAI.instance.chat.create(
-  //     model: "gpt-4o-mini",
-  //     responseFormat: {"type": "json_object"},
-  //     // seed: 6,
-  //     messages: requestMessages,
-  //     // temperature: 0.2,
-  //     maxTokens: 1000,
-  //   );
-
-  //   // print(chatCompletion.choices.first.message); // ...
-  //   print(chatCompletion.systemFingerprint); // ...
-  //   print(chatCompletion.usage.promptTokens); // ...
-  //   print(chatCompletion.id); // ...
-
-  //   final content = chatCompletion.choices.first.message.content?.first.text;
-
-  //   final Map<String, dynamic> decodedJson = jsonDecode(content!);
-
-  //   // Extract the 'quiz' array
-  //   final List<dynamic> quizArray = decodedJson['quiz'];
-
-  //   // Convert to a list of maps for easier access
-  //   final questions = quizArray.cast<Map<String, dynamic>>();
-
-  //   // for (var question in questions) {
-  //   //   print('Question ${question["qno"]}: ${question["Question"]}');
-  //   //   print('Options:');
-  //   //   print('1. ${question["Option1"]}');
-  //   //   print('2. ${question["Option2"]}');
-  //   //   print('3. ${question["Option3"]}');
-  //   //   print('4. ${question["Option4"]}');
-  //   //   print('Correct Option: ${question["CorrectOption"]}');
-  //   //   print('---');
-  //   // }
-
-  //   // Convert the response string into a list of maps
-  //   return questions;
-  // }
-
-  // final questions = generateQuestions(topic: "Fundamentals of Machine Learning", numberOfQuestions: 10,);
-  // print(questions);
-
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key}); // Added 'Key?' and 'super(key: key)'
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Demo App",
+      title: "Focus Prep",
+      theme: ThemeData(
+        useMaterial3: true,
+        // Define the default brightness and colors.
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.amber,
+          brightness: Brightness.light,
+        ),
+        // appBarTheme: AppBarTheme(
+        //   color: Colors.amber,
+        // ),
+        // textTheme: TextTheme(
+        //   displayLarge: const TextStyle(
+        //     fontSize: 72,
+        //     fontWeight: FontWeight.bold,
+        //   ),
+        //   // ···
+        //   titleLarge: GoogleFonts.oswald(
+        //     fontSize: 30,
+        //     fontStyle: FontStyle.italic,
+        //   ),
+        //   bodyMedium: GoogleFonts.merriweather(),
+        //   displaySmall: GoogleFonts.pacifico(),
+        // ),
+      ),
       routes: {
         '/': (context) => const HomeWrapper(),
         '/first': (context) => const First(),
@@ -131,7 +74,6 @@ class MyApp extends StatelessWidget {
         '/register':(context) => RegistrationPage(),
         // '/homestudent':(context) => HomeStudent(),
         '/profilepage':(context) => const ProfilePage(),
-        '/feedbackpage':(context) => const FeedbackPage(),
         // '/hometeacher':(context) => HomeTeacher(),
         // '/question':(context) => QuestionPage(),
         '/qbank':(context) => const QBank(),
