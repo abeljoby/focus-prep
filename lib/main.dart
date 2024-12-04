@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:dart_openai/dart_openai.dart';
+import 'package:ccwassist/env/env.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ccwassist/firebase_options.dart';
@@ -25,7 +27,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // lib/main.dart
+  OpenAI.apiKey = Env.OPEN_AI_API_KEY; // Initializes the package with that API key, all methods now are ready for use.
+  OpenAI.requestsTimeOut = Duration(seconds: 60);
+  OpenAI.showLogs = true;
 
+  // List<OpenAIModelModel> models = await OpenAI.instance.model.list();
+  // OpenAIModelModel firstModel = models.first;
+  // print(firstModel.id); // ...
+  // print(firstModel.permission); // ...
   runApp(const MyApp());
 }
 
