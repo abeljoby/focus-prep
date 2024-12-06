@@ -29,7 +29,7 @@ void main() async {
   );
   // lib/main.dart
   OpenAI.apiKey = Env.OPEN_AI_API_KEY;
-  OpenAI.requestsTimeOut = Duration(seconds: 60);
+  OpenAI.requestsTimeOut = Duration(seconds: 120);
   OpenAI.showLogs = true;
 
   runApp(const MyApp());

@@ -95,8 +95,14 @@ class CreateClassroomState extends State<CreateClassroom> {
                             "Code": classroomCode,
                             "Teacher": {"Name":name,"ktuID":ktuID},
                             "Students": [],
+                            "ktuID": ktuID,
                           };
                           db.collection("classrooms").doc(classroomCode).set(classroom);
+                          final student = <String, dynamic>{
+                            "Name": name,
+                            "ktuID": ktuID,
+                          };
+                          db.collection("classrooms").doc(classroomCode).update({"Students": FieldValue.arrayUnion([student])});
                           Navigator.pop(context);
                           Future.delayed(Duration.zero, () {
                             showDialog(

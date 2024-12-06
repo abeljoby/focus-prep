@@ -25,6 +25,7 @@ class _WrapperState extends State<HomeWrapper> {
               stream: FirebaseFirestore.instance.collection("users").where("email",isEqualTo: email).snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> qsnapshot) {
                 Map loggedUser = (qsnapshot.data?.docs.firstOrNull?.data()??{}) as Map;
+                // print(loggedUser);
                 if(qsnapshot.hasData) {
                   String userType = loggedUser["userType"];
                   if(userType == "Student") {

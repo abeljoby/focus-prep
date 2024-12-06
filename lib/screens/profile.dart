@@ -12,10 +12,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late String? name = '';
-  late String? batch = '';
   late String? ktuID = '';
   late String? email = '';
-  late String? dept = '';
   late String? type = '';
 
   void loadUserDetails() async {
@@ -24,8 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
       name = prefs.getString("name");
       ktuID = prefs.getString("ktuID");
       email = prefs.getString("email");
-      dept = prefs.getString("dept");
-      batch = prefs.getString("batch");
       type = prefs.getString("userType");
     });
   }
@@ -46,18 +42,10 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar:AppBar(
         title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.bold)),
         backgroundColor: Colors.amber,
-        // actions: [
-        //   PopupMenuButton(
-        //     itemBuilder: ((context) =>  [
-        //     const PopupMenuItem(child: Text("Edit Profile")),
-        //     const PopupMenuItem(child: Text("More")),
-        //     ]),
-        //   )
-        // ],
       ),
       body: Center(
         child: Column(
-    //      mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
@@ -81,14 +69,6 @@ class _ProfilePageState extends State<ProfilePage> {
               textColor: Colors.black,
             ),
       //      const Divider(),
-            if(type == "Student") ... [
-              ListTile(
-                title: Text("Batch: $batch",
-                  style: TextStyle(fontSize: 15),
-                ),
-                textColor: Colors.black,
-              ),
-            ],
           //  const Divider(),
             // const ListTile(
             //   title: Text("Username : 21BR14377",

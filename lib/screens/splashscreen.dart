@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             const Image(image: AssetImage('images/ccwassisticon.jpg')),
             // Icon(Icons.book, size: 80),
             Text(
-              "CCW ASSIST",
+              "Focus Prep",
               style: TextStyle(
                   fontSize: 50,
                   fontWeight: FontWeight.bold,

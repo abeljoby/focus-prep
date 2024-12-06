@@ -21,13 +21,13 @@ class _CreateTestState extends State<CreateTest> {
   List<String> courses = [];
   // final courses = {'DMS':'Discrete Mathematical Structures', 'DS':'Data Structures','COA':'Computer Organization and Architecture', 'DBMS':'Database Management Systems', 'OS':'Operating Systems', 'FLAT':'Formal Languages and Automata Theory'};
   String? selectedduration;
+  String? selectedclassroom;
   String? selecteddept;
   String? selectedtopic;
   String? selectedcourse;
   int? questions = 0;
   bool quizStart = true;
   List<String> selectedmodules = [];
-  List<String> classrooms = [];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -39,7 +39,6 @@ class _CreateTestState extends State<CreateTest> {
   @override
   void initState() {
     loadUserDetails();
-    loadClassrooms();
     super.initState();
   }
 
@@ -49,16 +48,16 @@ class _CreateTestState extends State<CreateTest> {
       name = prefs.getString("name");
       ktuID = prefs.getString("ktuID");
     });
+    // print(ktuID);
   }
 
-  void loadClassrooms() async {
-    final querySnapshot = await FirebaseFirestore.instance
-        .collection('classrooms')
-        .where('Teacher.ktuID', isEqualTo: ktuID)
-        .get();
-    setState(() {
-      classrooms = querySnapshot.docs.map((doc) => doc['Name'] as String).toList();
-    });
+  Future<List<Map<String,dynamic>>> loadClassrooms(String? ktuID) async {
+    var querySnapshot = await FirebaseFirestore.instance
+    .collection('classrooms')
+    .where('ktuID',isEqualTo: ktuID)
+    .get();
+    List<Map<String,dynamic>> classrooms = querySnapshot.docs.map((q) => q.data()).toList();
+    return classrooms;
   }
 
   @override
@@ -84,19 +83,16 @@ class _CreateTestState extends State<CreateTest> {
                   segments: const <ButtonSegment>[
                     ButtonSegment(
                       value: true,
-                      label: Text('Start now'),
-                      icon: Icon(Icons.timer_outlined)),
+                      label: Text('Self study'),
+                      icon: Icon(Icons.school_outlined)),
                     ButtonSegment(
                       value: false,
-                      label: Text('Schedule'),
-                      icon: Icon(Icons.calendar_month)),
+                      label: Text('Conduct test'),
+                      icon: Icon(Icons.people_alt_outlined)),
                   ],
                   selected: {quizStart},
                   onSelectionChanged: (Set newSelection) {
                     setState(() {
-                      // By default there is only a single segment that can be
-                      // selected at one time, so its value is always the first
-                      // item in the selected set.
                       quizStart = newSelection.first;
                     });
                   },
@@ -105,6 +101,45 @@ class _CreateTestState extends State<CreateTest> {
                 quizStart ? Container():
                 Column(
                   children: [
+                    FutureBuilder(
+                      future: loadClassrooms(ktuID),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<Map<String, dynamic>>? classrooms = snapshot.data;
+                          return DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              labelText: "Classroom",
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                            ),
+                            // borderRadius: BorderRadius.circular(20.0),
+                            items: classrooms
+                                ?.map((e) => DropdownMenuItem(value: e["Code"] as String, child: Text(e["Name"])))
+                                .toList(),
+                            onChanged: (val) {
+                              selectedclassroom = val;
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty || value == 'Select') {
+                                return 'Please select a classroom';
+                              }
+                              return null;
+                            },
+                          );
+                        }
+                        else {
+                          return DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              labelText: "Classroom",
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                            ),
+                            // borderRadius: BorderRadius.circular(20.0),
+                            items: [],
+                            onChanged: (val) {},
+                          );
+                        }
+                      }
+                    ),
+                    const SizedBox(height:20),
                     TextFormField(
                       controller: dateInput,
                       decoration: InputDecoration(
@@ -230,19 +265,14 @@ class _CreateTestState extends State<CreateTest> {
                     if (_formKey.currentState!.validate()) {
                       final test = <String, dynamic>{
                         "Questions": questions,
-                        "Course": selectedcourse,
-                        "Modules": selectedmodules,
                         "StartDate": dateInput.text,
                         "StartTime": timeInput.text,
                         "Duration": selectedduration,
-                        "Department": selecteddept,
                         "Topic": selectedtopic,
-                        // "Batch": "2023-24"
+                        "QuizStart": quizStart,
+                        "Classroom": selectedclassroom,
                       };
                       Navigator.push(context,MaterialPageRoute(builder: ((context) => GenerateQuestionPaper(data: test))));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Generated question paper.')),
-                      );
                       //db.collection("tests").add(test).then((DocumentReference doc) => print('DocumentSnapshot added with ID: ${doc.id}'));
                     }
                   },
