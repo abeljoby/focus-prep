@@ -3,6 +3,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
+import 'package:ccwassist/screens/qpscreen.dart';
 import 'package:ccwassist/screens/scheduledtests.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GenerateQuestionPaper extends StatefulWidget {
   final Map<String, dynamic> data;
-  const GenerateQuestionPaper({super.key, required this.data});
+  final String email;
+  const GenerateQuestionPaper({super.key, required this.data, required this.email});
 
   @override
   State<GenerateQuestionPaper> createState() => _GeneratePaperState();
@@ -18,6 +20,7 @@ class GenerateQuestionPaper extends StatefulWidget {
 
 class _GeneratePaperState extends State<GenerateQuestionPaper> {
   late Map<String,dynamic> dataCopy;
+  late String email;
   List<Map<String,dynamic>> questionPaper = [];
 
   Future<List<Map<String, dynamic>>> generateAIQuestions(Map<String,dynamic> dataCopy) async {
@@ -64,10 +67,10 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
     );
 
     // print(chatCompletion.choices.first.message); // ...
-    print(chatCompletion.systemFingerprint); // ...
-    print(chatCompletion.usage.promptTokens); // ...
-    print(chatCompletion.usage.totalTokens);
-    print(chatCompletion.id); // ...
+    // print(chatCompletion.systemFingerprint); // ...
+    // print(chatCompletion.usage.promptTokens); // ...
+    // print(chatCompletion.usage.totalTokens);
+    // print(chatCompletion.id); // ...
 
     final content = chatCompletion.choices.first.message.content?.first.text;
     final Map<String, dynamic> decodedJson = jsonDecode(content!);
@@ -92,6 +95,8 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
   void initState() {
     super.initState();
     dataCopy = widget.data;
+    print(dataCopy);
+    email = widget.email;
   }
 
   @override
@@ -135,54 +140,6 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
                       Map<String,dynamic> ques = questionPaper.elementAt(index);
                       // Create a container for each element
                       return QuestionCard(index: index,ques: ques,data: dataCopy,getQuestionPaper: () => questionPaper,);
-                      // return Container(
-                      //   padding: const EdgeInsets.all(8),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Flexible(
-                      //         child: Column(
-                      //           crossAxisAlignment: CrossAxisAlignment.start,
-                      //           children: [
-                      //             Text(
-                      //               "${index + 1}. ${ques['Question']}",
-                      //               style: const TextStyle(fontWeight: FontWeight.bold),
-                      //               maxLines: 3, // Limits the number of lines
-                      //               overflow: TextOverflow.ellipsis, // Adds ellipsis when text overflows
-                      //             ),
-                      //             const SizedBox(height: 8),
-                      //             Text("1. ${ques['Option1']}"),
-                      //             Text("2. ${ques['Option2']}"),
-                      //             Text("3. ${ques['Option3']}"),
-                      //             Text("4. ${ques['Option4']}"),
-                      //             const SizedBox(height: 8),
-                      //             Text(
-                      //               "Correct Option: ${ques['CorrectOption'].substring(6)}",
-                      //               style: const TextStyle(fontWeight: FontWeight.bold),
-                      //             ),
-                      //             const SizedBox(height: 8),
-                      //             const Divider(), // Add a divider
-                      //           ],
-                      //         ),
-                      //       ),
-                      //       IconButton(
-                      //         onPressed: () async {
-                      //           Map<String,dynamic> newQuestion = await generateReplacementQuestion(dataCopy, index+1);
-                      //           setState(() {
-                      //             questionPaper[index] = newQuestion;
-                      //           });
-                      //         },
-                      //         // shape: const CircleBorder(),
-                      //         style: ButtonStyle(
-                      //           backgroundColor: MaterialStateProperty.all(Colors.black),
-                      //           foregroundColor: MaterialStateProperty.all(Colors.yellow),
-                      //         ),
-                      //         icon: const Icon(Icons.replay_outlined),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // );
                     }
                   );
                 }
@@ -216,30 +173,28 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // ElevatedButton(
-                //   onPressed: () {
-                //     setState(() {});
-                //     ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(content: Text('Generated question paper.')),
-                //     );
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: Colors.black,
-                //     foregroundColor: Colors.amber,
-                //     fixedSize: const Size(150, 50)
-                //   ),
-                //   child: const Text('Regenerate',style: TextStyle(fontSize: 18),),
-                // ),
+                (dataCopy["QuizStart"])?
                 ElevatedButton(
                   onPressed: () async {
                     DocumentReference<Map<String,dynamic>> testref = await FirebaseFirestore.instance.collection("tests").add(dataCopy);
                     String testid = testref.id;
-                    // List<String> selectedreferences = [];
-                    // selectedreferences.addAll(questionPaper.map((q) => q["reference"]));
-                    // final qp = <String, dynamic>{
-                    //   "Question":selectedreferences
-                    // };
-                    // FirebaseFirestore.instance.collection("tests").doc(testid).collection("question-paper").doc("Questions").set(qp).then((value) => null);
+                    for (int index = 1; index <= questionPaper.length; index++) {
+                      questionPaper.elementAt(index-1)["qno"] = index;
+                      FirebaseFirestore.instance.collection("tests").doc(testid).collection("question-paper").doc("$index").set(questionPaper.elementAt(index-1)).then((value) => null);
+                    }
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context) => TestScreen(id: testid,data: dataCopy,email: email))),ModalRoute.withName('/'));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber,
+                    foregroundColor: Colors.black,
+                    fixedSize: const Size(150, 50)
+                  ),
+                  child: const Text('Start test',style: TextStyle(fontSize: 18),),
+                ):
+                ElevatedButton(
+                  onPressed: () async {
+                    DocumentReference<Map<String,dynamic>> testref = await FirebaseFirestore.instance.collection("tests").add(dataCopy);
+                    String testid = testref.id;
                     for (int index = 1; index <= questionPaper.length; index++) {
                       questionPaper.elementAt(index-1)["qno"] = index;
                       FirebaseFirestore.instance.collection("tests").doc(testid).collection("question-paper").doc("$index").set(questionPaper.elementAt(index-1)).then((value) => null);
@@ -381,6 +336,7 @@ class _QuestionCardState extends State<QuestionCard> {
                 Text("3. ${ques['Option3']}"),
                 Text("4. ${ques['Option4']}"),
                 const SizedBox(height: 8),
+                (data["QuizStart"])?const SizedBox.shrink():
                 Text(
                   "Correct Option: ${ques['CorrectOption'].substring(6)}",
                   style: const TextStyle(fontWeight: FontWeight.bold),
@@ -390,6 +346,7 @@ class _QuestionCardState extends State<QuestionCard> {
               ],
             ),
           ),
+          (data["QuizStart"])?const SizedBox.shrink():
           IconButton(
             onPressed: () async {
               Map<String,dynamic> newQuestion = await generateReplacementQuestion(data, index+1);

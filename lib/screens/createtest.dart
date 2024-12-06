@@ -35,6 +35,7 @@ class _CreateTestState extends State<CreateTest> {
 
   late String? name = '';
   late String? ktuID = '';
+  late String email = '';
   
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _CreateTestState extends State<CreateTest> {
     setState(() {
       name = prefs.getString("name");
       ktuID = prefs.getString("ktuID");
+      email = prefs.getString("email")!;
     });
     // print(ktuID);
   }
@@ -93,7 +95,14 @@ class _CreateTestState extends State<CreateTest> {
                   selected: {quizStart},
                   onSelectionChanged: (Set newSelection) {
                     setState(() {
+                      selectedclassroom = "";
                       quizStart = newSelection.first;
+                      String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+                      dateInput.text = formattedDate; //set output date to TextField value.
+                      print(dateInput.text);
+                      TimeOfDay pickedTime = TimeOfDay.now();
+                      timeInput.text = '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}'; //set output date to TextField value.
+                      print(timeInput.text);
                     });
                   },
                 ),
@@ -272,7 +281,8 @@ class _CreateTestState extends State<CreateTest> {
                         "QuizStart": quizStart,
                         "Classroom": selectedclassroom,
                       };
-                      Navigator.push(context,MaterialPageRoute(builder: ((context) => GenerateQuestionPaper(data: test))));
+                      // print(test);
+                      Navigator.push(context,MaterialPageRoute(builder: ((context) => GenerateQuestionPaper(data: test, email: email))));
                       //db.collection("tests").add(test).then((DocumentReference doc) => print('DocumentSnapshot added with ID: ${doc.id}'));
                     }
                   },

@@ -61,22 +61,25 @@ class _TestHistoryState extends State<TestHistory> {
     required String id
   }) {
 
-    String dateString = data["StartDate"];
-    // Parse the date string
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
-    DateTime dateTime = dateFormat.parse(dateString);
+    String dateHeading = "";
 
-    // Get Day of week as string
-    DateFormat dayOfWeekFormat = DateFormat("EEEE"); // EEEE for full weekday name
-    String dayOfWeek = dayOfWeekFormat.format(dateTime);
+    if(data["StartDate"] != "") {
+      String dateString = data["StartDate"];
+      // Parse the date string
+      DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+      DateTime dateTime = dateFormat.parse(dateString);
 
-    // Format the date with desired output format
-    DateFormat monthYearFormat = DateFormat("d MMMM yyyy"); // d for day with no leading zero, MMMM for full month name
-    String formattedDate = monthYearFormat.format(dateTime);
+      // Get Day of week as string
+      DateFormat dayOfWeekFormat = DateFormat("EEEE"); // EEEE for full weekday name
+      String dayOfWeek = dayOfWeekFormat.format(dateTime);
 
-    // Combine day of week and formatted date
-    String dateHeading = "$dayOfWeek, $formattedDate";
+      // Format the date with desired output format
+      DateFormat monthYearFormat = DateFormat("d MMMM yyyy"); // d for day with no leading zero, MMMM for full month name
+      String formattedDate = monthYearFormat.format(dateTime);
 
+      // Combine day of week and formatted date
+      dateHeading = "$dayOfWeek, $formattedDate";
+    }
     return Column(
       children: [
         Container(
@@ -91,9 +94,11 @@ class _TestHistoryState extends State<TestHistory> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 8),
-              // Text(data['Topic'], style: const TextStyle(fontWeight: FontWeight.bold)),
+              (data.containsKey("Topic") && data["Topic"] != "")?Text('Topic: ${data["Topic"]}', style: TextStyle(fontWeight: FontWeight.bold),):const SizedBox.shrink(),
+              // (data.containsKey("Classroom") && data["Classroom"] != "")?Text('Classroom: ${data["Classroom"]}'):Text('Self-study test'),
               Text('${data["Questions"]} questions'),
               Text(data['StartDate']),
+              Text(data['StartTime']),
               // Text(data['Course'],style: TextStyle(fontWeight: FontWeight.bold)),
               // Text("Modules ${data["Modules"].toString().substring(1, data["Modules"].toString().length - 1)}"),
               const SizedBox(height: 16),
