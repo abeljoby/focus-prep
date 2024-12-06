@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:math';
-import 'package:ccwassist/screens/scheduledtests.dart';
 
 class QuestionPaper extends StatefulWidget {
   final Map<String,dynamic> data;

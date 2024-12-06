@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:ccwassist/screens/result.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -194,68 +193,73 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
         leading: IconButton(onPressed: () {
           _scaffoldKey.currentState!.openDrawer();
         }, icon: const Icon(Icons.menu)),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text("Submission"),
-                    content: const Text("Are you sure you want to submit?"),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('CANCEL'),
-                      ),
-                      TextButton(
-                        // onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ResultPage(id: testID,data: testData,ans: answers,email: emailID)),ModalRoute.withName('/')),
-                        onPressed: () {
-                          result = checkAnswers(questionPaper, answers);
-                          final resultDoc = <String, dynamic>{
-                            "Answers": answers,
-                            "Result": result 
-                          };
-                          FirebaseFirestore.instance.collection("tests").doc(testID).collection("results").doc(ktuID).set(resultDoc);
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ResultPage(id: testID,data: testData,ans: answers,res: result,email: emailID)),ModalRoute.withName('/'));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Test completed and submitted.')),
-                          );
-                        },
-                        child: const Text('SUBMIT'),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                fixedSize: const Size(90, 20),
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text(
-                "SUBMIT",
-                style: TextStyle(fontSize: 11),
-              ),
-            ),
-          )
-        ],
+        // actions: [
+          
+        // ],
       ),
       body: Center(
           child: Column(
             children: [
               Container(
+                padding: EdgeInsets.only(left: 16.0,right: 16.0,top: 8.0,bottom: 8.0),
                 height: 80,
                 width: double.infinity,
                 color: Colors.indigo[800],
-                child: Center(
-                  child: Countdown(
-                    animation: StepTween(
-                      begin: levelClock, // THIS IS A USER ENTERED NUMBER
-                      end: 0,
-                    ).animate(_controller),
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Countdown(
+                      animation: StepTween(
+                        begin: levelClock, // THIS IS A USER ENTERED NUMBER
+                        end: 0,
+                      ).animate(_controller),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text("Submission"),
+                              content: const Text("Are you sure you want to submit?"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text('CANCEL'),
+                                ),
+                                TextButton(
+                                  // onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ResultPage(id: testID,data: testData,ans: answers,email: emailID)),ModalRoute.withName('/')),
+                                  onPressed: () {
+                                    result = checkAnswers(questionPaper, answers);
+                                    final resultDoc = <String, dynamic>{
+                                      "Answers": answers,
+                                      "Result": result 
+                                    };
+                                    FirebaseFirestore.instance.collection("tests").doc(testID).collection("results").doc(ktuID).set(resultDoc);
+                                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ResultPage(id: testID,data: testData,ans: answers,res: result,email: emailID)),ModalRoute.withName('/'));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(content: Text('Test completed and submitted.')),
+                                    );
+                                  },
+                                  child: const Text('SUBMIT'),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          // fixedSize: const Size(90, 20),
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: const Text(
+                          "SUBMIT",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
               FutureBuilder(
@@ -263,12 +267,12 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Scaffold(
-                      appBar: AppBar(title: Text('CCW Test 1')),
+                      appBar: AppBar(title: Text('${testData["Topic"]}')),
                       body: Expanded(child: Center(child: CircularProgressIndicator())),
                     );
                   } else if (snapshot.hasError || snapshot.data == null) {
                     return Scaffold(
-                      appBar: AppBar(title: Text('CCW Test 1')),
+                      appBar: AppBar(title: Text('${testData["Topic"]}')),
                       body: Expanded(child: Center(child: Text("Error fetching the data"))),
                     );
                   } else if (snapshot.hasData){
@@ -503,7 +507,12 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                   nextQuestion(noOfQuestions);
                 });
               },
-              child: Text('Save'),
+              style: ElevatedButton.styleFrom(
+                // fixedSize: const Size(90, 20),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+              child: Text('SAVE',style: TextStyle(fontSize: 16),),
             ),
             IconButton(
               onPressed: () {

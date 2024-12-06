@@ -18,7 +18,6 @@ import 'package:ccwassist/screens/upcomingtests.dart';
 import 'package:ccwassist/screens/profile.dart';
 import 'package:ccwassist/authentication/login.dart';
 import 'package:ccwassist/authentication/register.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 void main() async {
