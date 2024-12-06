@@ -29,7 +29,7 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
         OpenAIChatCompletionChoiceMessageContentItemModel.text(
           // "Hello, I am a chatbot created by OpenAI. How are you today?",
           '''
-          Generate a quiz on the topic "${dataCopy["Topic"]}" with ${dataCopy["Questions"]} questions. The response must be a JSON object with a single key named "Quiz" (case-sensitive). The value of "Quiz" should be an array of objects. Each object should have the following fields:
+          Generate a quiz on the topic "${dataCopy["Topic"]}" with ${dataCopy["Questions"]} questions. The difficulty level should be ${dataCopy["Difficulty"]}. The response must be a JSON object with a single key named "Quiz" (case-sensitive). The value of "Quiz" should be an array of objects. Each object should have the following fields:
           {
             "qno": 1,
             "Question": "Your question here",
@@ -249,7 +249,7 @@ class _QuestionCardState extends State<QuestionCard> {
         OpenAIChatCompletionChoiceMessageContentItemModel.text(
           // "Hello, I am a chatbot created by OpenAI. How are you today?",
           '''
-          Generate a question on the topic "${dataCopy["Topic"]}". The response must be a JSON object with the following fields:
+          Generate a question on the topic "${dataCopy["Topic"]}". The difficulty level should be ${dataCopy["Difficulty"]}. The response must be a JSON object with the following fields:
           {
             "qno": $qno,
             "Question": "Your question here",

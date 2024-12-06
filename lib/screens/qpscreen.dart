@@ -278,73 +278,66 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                   } else if (snapshot.hasData){
                     questionPaper = snapshot.data as List<Map<String,dynamic>>;
                     noOfQuestions = questionPaper.length;
-                    return Expanded(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Question ${index + 1}/${noOfQuestions}',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              Text(questionPaper[index]["Question"]),
-                              const SizedBox(height: 20),
-                              Column(
-                                children: [
-                                  RadioListTile(
-                                    title: Text(questionPaper[index]['Option1']),
-                                    value: 'Option1',
-                                    groupValue: answers[index],
-                                    onChanged: (val) {
-                                      setState(() {
-                                        answers[index] = val!;                                    
-                                      });
-                                    },
-                                  ),
-                                  RadioListTile(
-                                    title: Text(questionPaper[index]['Option2']),
-                                    value: 'Option2',
-                                    groupValue: answers[index],
-                                    onChanged: (val) {
-                                      setState(() {
-                                        answers[index] = val!;                                    
-                                      });
-                                    },
-                                  ),
-                                  RadioListTile(
-                                    title: Text(questionPaper[index]['Option3']),
-                                    value: 'Option3',
-                                    groupValue: answers[index],
-                                    onChanged: (val) {
-                                      setState(() {
-                                        answers[index] = val!;                                    
-                                      });
-                                    },
-                                  ),
-                                  RadioListTile(
-                                    title: Text(questionPaper[index]['Option4']),
-                                    value: 'Option4',
-                                    groupValue: answers[index],
-                                    onChanged: (val) {
-                                      setState(() {
-                                        answers[index] = val!;                                    
-                                      });
-                                    },
-                                  ),
-                                ]
-                              ),
-                              // ElevatedButton(
-                              //   onPressed: () {
-                              //     nextQuestion(noOfQuestions);
-                              //   },
-                              //   child: const Text('Next Question'),
-                              // ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                    return QuizQuestionWidget(index: index, noOfQuestions: noOfQuestions, questionPaper: questionPaper, answers: answers);
+                    // Expanded(
+                    //   child: SingleChildScrollView(
+                    //     child: Padding(
+                    //       padding: const EdgeInsets.all(16.0),
+                    //       child: Column(
+                    //         crossAxisAlignment: CrossAxisAlignment.start,
+                    //         children: [
+                    //           Text('Question ${index + 1}/${noOfQuestions}',
+                    //             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    //           ),
+                    //           Text(questionPaper[index]["Question"]),
+                    //           const SizedBox(height: 20),
+                    //           Column(
+                    //             children: [
+                    //               RadioListTile(
+                    //                 title: Text(questionPaper[index]['Option1']),
+                    //                 value: 'Option1',
+                    //                 groupValue: answers[index],
+                    //                 onChanged: (val) {
+                    //                   setState(() {
+                    //                     answers[index] = val!;                                    
+                    //                   });
+                    //                 },
+                    //               ),
+                    //               RadioListTile(
+                    //                 title: Text(questionPaper[index]['Option2']),
+                    //                 value: 'Option2',
+                    //                 groupValue: answers[index],
+                    //                 onChanged: (val) {
+                    //                   setState(() {
+                    //                     answers[index] = val!;                                    
+                    //                   });
+                    //                 },
+                    //               ),
+                    //               RadioListTile(
+                    //                 title: Text(questionPaper[index]['Option3']),
+                    //                 value: 'Option3',
+                    //                 groupValue: answers[index],
+                    //                 onChanged: (val) {
+                    //                     answers[index] = val!;                                    
+                    //                 },
+                    //               ),
+                    //               RadioListTile(
+                    //                 title: Text(questionPaper[index]['Option4']),
+                    //                 value: 'Option4',
+                    //                 groupValue: answers[index],
+                    //                 onChanged: (val) {
+                    //                   setState(() {
+                    //                     answers[index] = val!;                                    
+                    //                   });
+                    //                 },
+                    //               ),
+                    //             ]
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // );
                   } else {
                     return Expanded(
                       child: Center(
@@ -580,6 +573,92 @@ class Countdown extends AnimatedWidget {
       style: const TextStyle(
         fontSize: 30,
         color: Colors.white,
+      ),
+    );
+  }
+}
+
+class QuizQuestionWidget extends StatefulWidget {
+  final int index;
+  final int noOfQuestions;
+  final List<Map<String, dynamic>> questionPaper;
+  final List<String> answers;
+
+  const QuizQuestionWidget({
+    Key? key,
+    required this.index,
+    required this.noOfQuestions,
+    required this.questionPaper,
+    required this.answers,
+  }) : super(key: key);
+
+  @override
+  _QuizQuestionWidgetState createState() => _QuizQuestionWidgetState();
+}
+
+class _QuizQuestionWidgetState extends State<QuizQuestionWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Question ${widget.index + 1}/${widget.noOfQuestions}',
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text(widget.questionPaper[widget.index]["Question"] ?? ''),
+              const SizedBox(height: 20),
+              Column(
+                children: [
+                  RadioListTile(
+                    title: Text(widget.questionPaper[widget.index]['Option1'] ?? ''),
+                    value: 'Option1',
+                    groupValue: widget.answers[widget.index],
+                    onChanged: (val) {
+                      setState(() {
+                        widget.answers[widget.index] = val!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(widget.questionPaper[widget.index]['Option2'] ?? ''),
+                    value: 'Option2',
+                    groupValue: widget.answers[widget.index],
+                    onChanged: (val) {
+                      setState(() {
+                        widget.answers[widget.index] = val!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(widget.questionPaper[widget.index]['Option3'] ?? ''),
+                    value: 'Option3',
+                    groupValue: widget.answers[widget.index],
+                    onChanged: (val) {
+                      setState(() {
+                        widget.answers[widget.index] = val!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(widget.questionPaper[widget.index]['Option4'] ?? ''),
+                    value: 'Option4',
+                    groupValue: widget.answers[widget.index],
+                    onChanged: (val) {
+                      setState(() {
+                        widget.answers[widget.index] = val!;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

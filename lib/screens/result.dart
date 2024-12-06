@@ -60,7 +60,7 @@ class _ResultPageState extends State<ResultPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
-              appBar: AppBar(title: Text('CCW Test')),
+              appBar: AppBar(title: Text('')),
               body: Center(child: CircularProgressIndicator()),
             );
           } else if (snapshot.hasError || snapshot.data == null) {
@@ -79,27 +79,27 @@ class _ResultPageState extends State<ResultPage> {
             return Center(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 55,
-                    width: double.infinity,
-                    child: ColoredBox(
-                      color: Colors.indigo,
-                      child: Center(
-                        child: Text(
-                          testData['Topic'],
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: 55,
+                  //   width: double.infinity,
+                  //   child: ColoredBox(
+                  //     color: Colors.indigo,
+                  //     child: Center(
+                  //       child: Text(
+                  //         testData['Topic'],
+                  //         style: TextStyle(fontSize: 20, color: Colors.white),
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Container(
                     padding: const EdgeInsets.all(10),
                     // height: 100,
                     width: double.infinity,
                     color: Colors.white,
                     child: Text(
-                      '${testData['StartTime']}\n${testData['StartDate']}\nTopic: ${testData['Topic']}',
+                      '${testData['StartTime']}\n${testData['StartDate']}\nTopic: ${testData['Topic']}\nDifficulty level: ${testData['Difficulty']}',
                       style: TextStyle(color: Colors.black, fontSize: 15),
                     ),
                   ),

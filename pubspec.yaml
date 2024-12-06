@@ -78,6 +78,10 @@ flutter:
     - images/ccwassisticon.jpg
     - images/classroom.jpg
     - images/objectivetest.jpg
+    - images/focusprepamber.png
+    - images/focusprepblack.png
+    - images/focuspreplogo.png
+    - images/focuspreplogoamber.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

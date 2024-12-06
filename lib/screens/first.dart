@@ -21,13 +21,19 @@ class _FirstState extends State<First> {
                   color: Colors.amber,
                   width: double.infinity,
                   //         margin: EdgeInsets.all(5),
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 180.0, maxWidth: 180.0),
+                        child: const Image(image: AssetImage('images/focuspreplogo.png')),
+                      ),
+                      // const Image(image: AssetImage('images/focuspreplogo.png')),
+                      SizedBox(height: 10,),
                       Text(
                         "Focus Prep",
                         style: TextStyle(
-                          fontSize: 50,
+                          fontSize: 40,
                           fontWeight: FontWeight.bold,
                         ),
                       )

@@ -40,12 +40,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Image(image: AssetImage('images/ccwassisticon.jpg')),
+            const Image(image: AssetImage('images/focusprepblack.png')),
             // Icon(Icons.book, size: 80),
             Text(
               "Focus Prep",
               style: TextStyle(
-                  fontSize: 50,
+                  fontSize: 36,
                   fontWeight: FontWeight.bold,
                   color: Colors.amber),
             )

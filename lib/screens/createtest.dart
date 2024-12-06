@@ -17,10 +17,12 @@ class _CreateTestState extends State<CreateTest> {
   TextEditingController timeInput = TextEditingController();
   final MultiSelectController _controller = MultiSelectController();
   final durations = ['15 min','30 min', '60 min'];
+  final difficulties = {"Easy":"Moderate","Moderate":"Hard","Hard":"Very Difficult"};
   final departments = {'CSE':'Computer Science and Engineering', 'ECE':'Electronics and Communications Engineering','EEE':'Electrical and Electronics Engineering', 'ME':'Mechanical Engineering', 'CE':'Civil Engineering'};
   List<String> courses = [];
   // final courses = {'DMS':'Discrete Mathematical Structures', 'DS':'Data Structures','COA':'Computer Organization and Architecture', 'DBMS':'Database Management Systems', 'OS':'Operating Systems', 'FLAT':'Formal Languages and Automata Theory'};
   String? selectedduration;
+  String? selecteddifficulty;
   String? selectedclassroom;
   String? selecteddept;
   String? selectedtopic;
@@ -252,6 +254,26 @@ class _CreateTestState extends State<CreateTest> {
                   },
                 ),
                 const SizedBox(height:20),
+                DropdownButtonFormField(
+                  decoration: InputDecoration(
+                    labelText: "Difficulty",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                  ),
+                  borderRadius: BorderRadius.circular(20.0),
+                  items: difficulties.keys
+                      .map((e) => DropdownMenuItem(value: difficulties[e], child: Text(e)))
+                      .toList(),
+                  onChanged: (val) {
+                    selecteddifficulty = val;
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value == 'Select') {
+                      return 'Please select a difficulty level';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20,),
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -278,9 +300,11 @@ class _CreateTestState extends State<CreateTest> {
                         "StartTime": timeInput.text,
                         "Duration": selectedduration,
                         "Topic": selectedtopic,
+                        "Difficulty": selecteddifficulty,
                         "QuizStart": quizStart,
                         "Classroom": selectedclassroom,
                       };
+                      print(test);
                       // print(test);
                       Navigator.push(context,MaterialPageRoute(builder: ((context) => GenerateQuestionPaper(data: test, email: email))));
                       //db.collection("tests").add(test).then((DocumentReference doc) => print('DocumentSnapshot added with ID: ${doc.id}'));

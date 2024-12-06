@@ -273,32 +273,34 @@ class _HomeStudentState extends State<HomeStudent> {
         childrenAnimation: ExpandableFabAnimation.none,
         distance: 70,
         overlayStyle: ExpandableFabOverlayStyle(
-          color: Colors.white.withOpacity(0.3),
+          color: Colors.black.withOpacity(0.3),
         ),
         children: [
           Row(
             children: [
-              Text('Create a classroom'),
-              SizedBox(width: 20),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white, // Background color of the highlight
+                  borderRadius: BorderRadius.circular(12.0), // Circular border radius
+                  border: Border.all(
+                    color: Colors.grey, // Border color
+                    width: 1.0, // Border width
+                  ),
+                ),
+                
+                child: Text(
+                  'Create a classroom',
+                  // style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              // Text('Create a classroom'),
+              SizedBox(width: 10),
               FloatingActionButton.small(
                 heroTag: null,
                 foregroundColor: Colors.amber,
                 backgroundColor: Colors.black,
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => const CreateClassroom()))),
-                child: Icon(Icons.people),
-                shape: const CircleBorder(),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text('Join a classroom'),
-              SizedBox(width: 20),
-              FloatingActionButton.small(
-                heroTag: null,
-                foregroundColor: Colors.amber,
-                backgroundColor: Colors.black,
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => const JoinClassroom()))),
                 child: Icon(Icons.class_),
                 shape: const CircleBorder(),
               ),
@@ -306,8 +308,52 @@ class _HomeStudentState extends State<HomeStudent> {
           ),
           Row(
             children: [
-              Text('Create a new test'),
-              SizedBox(width: 20),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white, // Background color of the highlight
+                  borderRadius: BorderRadius.circular(12.0), // Circular border radius
+                  border: Border.all(
+                    color: Colors.grey, // Border color
+                    width: 1.0, // Border width
+                  ),
+                ),
+                
+                child: Text(
+                  'Join a classroom',
+                  // style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              SizedBox(width: 10),
+              FloatingActionButton.small(
+                heroTag: null,
+                foregroundColor: Colors.amber,
+                backgroundColor: Colors.black,
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => const JoinClassroom()))),
+                child: Icon(Icons.group_add),
+                shape: const CircleBorder(),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white, // Background color of the highlight
+                  borderRadius: BorderRadius.circular(12.0), // Circular border radius
+                  border: Border.all(
+                    color: Colors.grey, // Border color
+                    width: 1.0, // Border width
+                  ),
+                ),
+                
+                child: Text(
+                  'Create a test',
+                  // style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              SizedBox(width: 10),
               FloatingActionButton.small(
                 heroTag: null,
                 foregroundColor: Colors.amber,
