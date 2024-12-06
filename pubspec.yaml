@@ -46,6 +46,7 @@ dependencies:
   google_fonts: ^6.2.0
   envied: ^1.0.0
   dart_openai: ^5.1.0
+  flutter_expandable_fab: ^2.3.0
 
 dev_dependencies:
   flutter_test:

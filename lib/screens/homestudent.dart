@@ -1,5 +1,7 @@
+import 'package:ccwassist/screens/createclassroom.dart';
 import 'package:ccwassist/screens/createtest.dart';
 import 'package:ccwassist/screens/homewrapper.dart';
+import 'package:ccwassist/screens/joinclassroom.dart';
 import 'package:ccwassist/screens/scheduledtests.dart';
 import 'package:ccwassist/screens/teacherclassroom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'upcomingtests.dart';
 import 'profile.dart';
 import 'testhistory.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 class HomeStudent extends StatefulWidget {
   final Map data;
@@ -18,6 +21,7 @@ class HomeStudent extends StatefulWidget {
 }
 
 class _HomeStudentState extends State<HomeStudent> {
+  final _key = GlobalKey<ExpandableFabState>();
   final user = FirebaseAuth.instance.currentUser!;
   late Map userDetails = {};
   late String name = "";
@@ -238,16 +242,83 @@ class _HomeStudentState extends State<HomeStudent> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pushNamed(context, '/joinclass');
-        },
-        label: Text('Join classroom'),
-        // shape: const CircleBorder(),
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.amber,
-        icon: const Icon(Icons.add),
+      floatingActionButtonLocation: ExpandableFab.location,
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () {
+      //     Navigator.pushNamed(context, '/joinclass');
+      //   },
+      //   label: Text('Join classroom'),
+      //   // shape: const CircleBorder(),
+      //   backgroundColor: Colors.black,
+      //   foregroundColor: Colors.amber,
+      //   icon: const Icon(Icons.add),
+      // ),
+      floatingActionButton: ExpandableFab(
+        openButtonBuilder: RotateFloatingActionButtonBuilder(
+          child: const Icon(Icons.add),
+          fabSize: ExpandableFabSize.regular,
+          foregroundColor: Colors.amber,
+          backgroundColor: Colors.black,
+          shape: const CircleBorder(),
+        ),
+        closeButtonBuilder: RotateFloatingActionButtonBuilder(
+          child: const Icon(Icons.close),
+          fabSize: ExpandableFabSize.regular,
+          foregroundColor: Colors.amber,
+          backgroundColor: Colors.black,
+          shape: const CircleBorder(),
+        ),
+        key: _key,
+        type: ExpandableFabType.up,
+        childrenAnimation: ExpandableFabAnimation.none,
+        distance: 70,
+        overlayStyle: ExpandableFabOverlayStyle(
+          color: Colors.white.withOpacity(0.3),
+        ),
+        children: [
+          Row(
+            children: [
+              Text('Create a classroom'),
+              SizedBox(width: 20),
+              FloatingActionButton.small(
+                heroTag: null,
+                foregroundColor: Colors.amber,
+                backgroundColor: Colors.black,
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => const CreateClassroom()))),
+                child: Icon(Icons.people),
+                shape: const CircleBorder(),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text('Join a classroom'),
+              SizedBox(width: 20),
+              FloatingActionButton.small(
+                heroTag: null,
+                foregroundColor: Colors.amber,
+                backgroundColor: Colors.black,
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => const JoinClassroom()))),
+                child: Icon(Icons.class_),
+                shape: const CircleBorder(),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text('Create a new test'),
+              SizedBox(width: 20),
+              FloatingActionButton.small(
+                heroTag: null,
+                foregroundColor: Colors.amber,
+                backgroundColor: Colors.black,
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: ((context) => const CreateTest()))),
+                child: Icon(Icons.school),
+                shape: const CircleBorder(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
