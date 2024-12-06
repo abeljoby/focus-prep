@@ -32,7 +32,7 @@ class ClassroomState extends State<Classroom> {
 
   @override
   Widget build(BuildContext context) {
-    _classStream = FirebaseFirestore.instance.collection('classrooms').where('Teacher.ktuID',isEqualTo: ktuID).snapshots();
+    _classStream = FirebaseFirestore.instance.collection('classrooms').where('Students',arrayContains: {'Name':name,'ktuID':ktuID}).snapshots();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Classrooms', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -89,7 +89,7 @@ class ClassroomState extends State<Classroom> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("${student['Name']} (${student['ktuID']})")
+                                    Text("${student['Name']}")
                                   ],
                                 ),
                               );
