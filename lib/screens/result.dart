@@ -99,8 +99,8 @@ class _ResultPageState extends State<ResultPage> {
                     width: double.infinity,
                     color: Colors.white,
                     child: Text(
-                      '${testData['StartTime']}\n${testData['StartDate']}\nTopic: ${testData['Topic']}\nDifficulty level: ${testData['Difficulty']}',
-                      style: TextStyle(color: Colors.black, fontSize: 15),
+                      'Topic: ${testData['Topic']}',
+                      style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Container(

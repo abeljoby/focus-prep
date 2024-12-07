@@ -81,7 +81,7 @@ class _CorrectedQuestionPaperState extends State<CorrectedQuestionPaper> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Date: ${dataCopy["StartDate"]} ${dataCopy["StartTime"]}\nName: $name\nResult: ${result[0]}/${result[1]+result[2]+result[3]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
+                Text('Topic: ${dataCopy["Topic"]}\nResult: ${result[0]}/${result[1]+result[2]+result[3]}',textAlign:TextAlign.center,style: TextStyle(color: Colors.black,)),                // Add more details as needed
               ],
             ),
           ),

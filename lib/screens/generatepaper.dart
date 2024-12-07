@@ -29,7 +29,7 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
         OpenAIChatCompletionChoiceMessageContentItemModel.text(
           // "Hello, I am a chatbot created by OpenAI. How are you today?",
           '''
-          Generate a quiz on the topic "${dataCopy["Topic"]}" with ${dataCopy["Questions"]} questions. The difficulty level should be ${dataCopy["Difficulty"]}. The response must be a JSON object with a single key named "Quiz" (case-sensitive). The value of "Quiz" should be an array of objects. Each object should have the following fields:
+          Generate a quiz on the topic "${dataCopy["Topic"]}" with ${dataCopy["Questions"]} ${dataCopy["Difficulty"]} questions. The difficulty level should be ${dataCopy["Difficulty"]}. The response must be a JSON object with a single key named "Quiz" (case-sensitive). The value of "Quiz" should be an array of objects. Each object should have the following fields:
           {
             "qno": 1,
             "Question": "Your question here",
@@ -182,6 +182,9 @@ class _GeneratePaperState extends State<GenerateQuestionPaper> {
                       questionPaper.elementAt(index-1)["qno"] = index;
                       FirebaseFirestore.instance.collection("tests").doc(testid).collection("question-paper").doc("$index").set(questionPaper.elementAt(index-1)).then((value) => null);
                     }
+                    print(testid);
+                    print(dataCopy);
+                    print(email);
                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: ((context) => TestScreen(id: testid,data: dataCopy,email: email))),ModalRoute.withName('/'));
                   },
                   style: ElevatedButton.styleFrom(

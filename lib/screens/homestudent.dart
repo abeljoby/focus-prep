@@ -3,6 +3,7 @@ import 'package:ccwassist/screens/createtest.dart';
 import 'package:ccwassist/screens/homewrapper.dart';
 import 'package:ccwassist/screens/joinclassroom.dart';
 import 'package:ccwassist/screens/qbank.dart';
+import 'package:ccwassist/screens/qpscreen.dart';
 import 'package:ccwassist/screens/scheduledtests.dart';
 import 'package:ccwassist/screens/teacherclassroom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,7 +90,35 @@ class _HomeStudentState extends State<HomeStudent> {
               const Image(image: AssetImage('images/ritcsdept.jpg')),
               const SizedBox(height: 20),
               Text('Welcome, ${name}'),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Material(
+                  color: Colors.deepPurple,
+                  elevation: 7.0,
+                  borderRadius: BorderRadius.circular(20),
+                  child: SizedBox( // Set specific height and width
+                    height: 60.0,
+                    width: 300.0,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(context,MaterialPageRoute(builder: ((context) => const TestScreen(id:"PIFD3h9nSApoEb3kjZDx",email:"abeljoby@gmail.com",data: {"Questions": 15, "StartDate": "", "StartTime": "", "Duration": "15 min", "Topic": "Interesting General Knowledge Quiz", "Difficulty": "Very Difficult", "QuizStart": true, "Classroom": null},))));
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Center(
+                          child: Text(
+                            'Play the Focus Prep Challenge!',
+                            style: TextStyle(fontSize: 19.0, color: Colors.white),
+                            textAlign: TextAlign.center
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
