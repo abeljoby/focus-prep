@@ -2,6 +2,7 @@ import 'package:ccwassist/screens/createclassroom.dart';
 import 'package:ccwassist/screens/createtest.dart';
 import 'package:ccwassist/screens/homewrapper.dart';
 import 'package:ccwassist/screens/joinclassroom.dart';
+import 'package:ccwassist/screens/qbank.dart';
 import 'package:ccwassist/screens/scheduledtests.dart';
 import 'package:ccwassist/screens/teacherclassroom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -207,36 +208,64 @@ class _HomeStudentState extends State<HomeStudent> {
                 ),
                 ],
               ),    
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Material(
-                  color: Colors.amber,
-                  elevation: 7.0,
-                  borderRadius: BorderRadius.circular(20),
-                  child: SizedBox( // Set specific height and width
-                    height: 80.0,
-                    width: 345.0,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) =>
-                                  const TestHistory())));
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Center(
-                          child: Text(
-                            'Test History',
-                            style: TextStyle(fontSize: 19.0),
-                            textAlign: TextAlign.center
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Material(
+                    color: Colors.amber,
+                    elevation: 7.0,
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox( // Set specific height and width
+                      height: 80.0,
+                      width: 150.0,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: ((context) => const QBank())));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Text(
+                              'Question Bank',
+                              style: TextStyle(fontSize: 19.0),
+                              textAlign: TextAlign.center
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Material(
+                    color: Colors.amber,
+                    elevation: 7.0,
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox( // Set specific height and width
+                      height: 80.0,
+                      width: 150.0,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: ((context) => const TestHistory())));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Center(
+                            child: Text(
+                              'Test History',
+                              style: TextStyle(fontSize: 19.0),
+                              textAlign: TextAlign.center
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                ],
               ),
             ],
           ),

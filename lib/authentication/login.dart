@@ -9,10 +9,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late Image image1;
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    image1 = Image.asset("images/ritgate.jpg");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(image1.image, context);
+  }
 
   @override
   void dispose() {
@@ -45,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Image(image: AssetImage("images/ritgate.jpg")),
+            image1,
             SizedBox(
               height: MediaQuery.of(context).size.height - 400, // Adjust height as needed
               child: Center(

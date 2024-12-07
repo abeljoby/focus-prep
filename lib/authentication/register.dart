@@ -10,6 +10,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  late Image image1;
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final name = TextEditingController();
@@ -19,6 +20,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String userType = "Student";
 
   FirebaseFirestore db = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    image1 = Image.asset("images/ritgate.jpg");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(image1.image, context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +47,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Image(image: AssetImage("images/ritgate.jpg")),
+              image1,
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: buildStudentFields(),

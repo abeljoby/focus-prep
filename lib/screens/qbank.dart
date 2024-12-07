@@ -8,13 +8,10 @@ class QBank extends StatefulWidget {
 }
 
 class QBankState extends State<QBank> {
-  final Stream<QuerySnapshot> _questionStream = FirebaseFirestore.instance.collection('question-bank').orderBy("Module").snapshots();
-  String? _selectedOption = 'DMS'; // Initial value
-  final courses = {'DMS':'Discrete Mathematical Structures', 'DS':'Data Structures','COA':'Computer Organization and Architecture', 'DBMS':'DataBase Management Systems', 'OS':'Operating Systems', 'FLAT':'Formal Languages and Automata Theory'};
-  final modules = ["1","2","3","4","5"];
+  final Stream<QuerySnapshot> _questionStream = FirebaseFirestore.instance.collection('questions').orderBy("Topic").snapshots();
 
   deleteUser(String docID) async {
-    FirebaseFirestore.instance.collection('question-bank').doc(docID).delete();
+    FirebaseFirestore.instance.collection('questions').doc(docID).delete();
   }
 
   @override
@@ -38,29 +35,29 @@ class QBankState extends State<QBank> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-        Container(
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
-          padding: const EdgeInsets.all(20),
-          child: DropdownButtonFormField<String>(
-            // hint: const Text("Select"),
-            value: _selectedOption,
-            items: courses.keys.map((String key) {
-              return DropdownMenuItem <String>(
-                value: key,
-                child: Text(key)
-              );
-            }).toList(),
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedOption = newValue;
-              });
-            },
-            decoration: const InputDecoration(
-              labelText: 'Course',
-              border: OutlineInputBorder(),
-            ),
-          ),
-        ),
+        // Container(
+        //   decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+        //   padding: const EdgeInsets.all(20),
+        //   child: DropdownButtonFormField<String>(
+        //     // hint: const Text("Select"),
+        //     value: _selectedOption,
+        //     items: courses.keys.map((String key) {
+        //       return DropdownMenuItem <String>(
+        //         value: key,
+        //         child: Text(key)
+        //       );
+        //     }).toList(),
+        //     onChanged: (String? newValue) {
+        //       setState(() {
+        //         _selectedOption = newValue;
+        //       });
+        //     },
+        //     decoration: const InputDecoration(
+        //       labelText: 'Topic',
+        //       border: OutlineInputBorder(),
+        //     ),
+        //   ),
+        // ),
         Expanded(child: Container(
           padding: EdgeInsets.all(20),
           child: StreamBuilder<QuerySnapshot>(
@@ -78,10 +75,10 @@ class QBankState extends State<QBank> {
                 shrinkWrap: true,
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
                   Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                  if((data["Question"] == null)||(data["Course"] == null)||(data["Option1"] == null)||(data["Option2"] == null)||(data["Option3"] == null)||(data["Option4"] == null)||(data["CorrectOption"] == null)||(data["Module"] == null)) {
+                  if((data["Question"] == null)||(data["Option1"] == null)||(data["Option2"] == null)||(data["Option3"] == null)||(data["Option4"] == null)||(data["CorrectOption"] == null)) {
                     print(document.id);
                   }
-                  if((data["Question"] == null)||(data["Course"] == null)||(data["Option1"] == null)||(data["Option2"] == null)||(data["Option3"] == null)||(data["Option4"] == null)||(data["CorrectOption"] == null)||(data["Module"] == null)||(data["Course"] != courses[_selectedOption])) {
+                  if((data["Question"] == null)||(data["Option1"] == null)||(data["Option2"] == null)||(data["Option3"] == null)||(data["Option4"] == null)||(data["CorrectOption"] == null)) {
                     return SizedBox.shrink();
                   }
                   else {
@@ -91,7 +88,7 @@ class QBankState extends State<QBank> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${data['Question']} \n(Module ${data["Module"]})", style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Text("${data['Topic']}\n${data['Question']}", style: const TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
                         Text("1. ${data['Option1']}"),
                         Text("2. ${data['Option2']}"),
