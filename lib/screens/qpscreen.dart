@@ -193,180 +193,115 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
         leading: IconButton(onPressed: () {
           _scaffoldKey.currentState!.openDrawer();
         }, icon: const Icon(Icons.menu)),
-        // actions: [
-          
-        // ],
       ),
-      body: Center(
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.only(left: 16.0,right: 16.0,top: 8.0,bottom: 8.0),
-                height: 80,
-                width: double.infinity,
-                color: Colors.indigo[800],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
                   children: [
-                    Countdown(
-                      animation: StepTween(
-                        begin: levelClock, // THIS IS A USER ENTERED NUMBER
-                        end: 0,
-                      ).animate(_controller),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text("Submission"),
-                              content: const Text("Are you sure you want to submit?"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('CANCEL'),
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      height: 80,
+                      width: double.infinity,
+                      color: Colors.indigo[800],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Countdown(
+                            animation: StepTween(
+                              begin: levelClock,
+                              end: 0,
+                            ).animate(_controller),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text("Submission"),
+                                  content: const Text("Are you sure you want to submit?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('CANCEL'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        result = checkAnswers(questionPaper, answers);
+                                        final resultDoc = {
+                                          "Answers": answers,
+                                          "Result": result,
+                                        };
+                                        FirebaseFirestore.instance
+                                            .collection("tests")
+                                            .doc(testID)
+                                            .collection("results")
+                                            .doc(ktuID)
+                                            .set(resultDoc);
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                            builder: (context) => ResultPage(
+                                              id: testID,
+                                              data: testData,
+                                              ans: answers,
+                                              res: result,
+                                              email: emailID,
+                                            ),
+                                          ),
+                                          ModalRoute.withName('/'),
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text('Test completed and submitted.')),
+                                        );
+                                      },
+                                      child: const Text('SUBMIT'),
+                                    ),
+                                  ],
                                 ),
-                                TextButton(
-                                  // onPressed: () => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ResultPage(id: testID,data: testData,ans: answers,email: emailID)),ModalRoute.withName('/')),
-                                  onPressed: () {
-                                    result = checkAnswers(questionPaper, answers);
-                                    final resultDoc = <String, dynamic>{
-                                      "Answers": answers,
-                                      "Result": result 
-                                    };
-                                    FirebaseFirestore.instance.collection("tests").doc(testID).collection("results").doc(ktuID).set(resultDoc);
-                                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ResultPage(id: testID,data: testData,ans: answers,res: result,email: emailID)),ModalRoute.withName('/'));
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Test completed and submitted.')),
-                                    );
-                                  },
-                                  child: const Text('SUBMIT'),
-                                ),
-                              ],
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
                             ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          // fixedSize: const Size(90, 20),
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                        ),
-                        child: const Text(
-                          "SUBMIT",
-                          style: TextStyle(fontSize: 16),
-                        ),
+                            child: const Text("SUBMIT", style: TextStyle(fontSize: 16)),
+                          ),
+                        ],
                       ),
-                    )
+                    ),
+                    Expanded(
+                      child: FutureBuilder(
+                        future: getQuestionPaper(testID),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError || snapshot.data == null) {
+                            return Center(child: Text("Error fetching the data"));
+                          } else {
+                            questionPaper = snapshot.data as List<Map<String, dynamic>>;
+                            noOfQuestions = questionPaper.length;
+                            return QuizQuestionWidget(
+                              index: index,
+                              noOfQuestions: noOfQuestions,
+                              questionPaper: questionPaper,
+                              answers: answers,
+                            );
+                          }
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
-              FutureBuilder(
-                future: getQuestionPaper(testID),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Scaffold(
-                      appBar: AppBar(title: Text('${testData["Topic"]}')),
-                      body: Expanded(child: Center(child: CircularProgressIndicator())),
-                    );
-                  } else if (snapshot.hasError || snapshot.data == null) {
-                    return Scaffold(
-                      appBar: AppBar(title: Text('${testData["Topic"]}')),
-                      body: Expanded(child: Center(child: Text("Error fetching the data"))),
-                    );
-                  } else if (snapshot.hasData){
-                    questionPaper = snapshot.data as List<Map<String,dynamic>>;
-                    noOfQuestions = questionPaper.length;
-                    return QuizQuestionWidget(index: index, noOfQuestions: noOfQuestions, questionPaper: questionPaper, answers: answers);
-                    // Expanded(
-                    //   child: SingleChildScrollView(
-                    //     child: Padding(
-                    //       padding: const EdgeInsets.all(16.0),
-                    //       child: Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           Text('Question ${index + 1}/${noOfQuestions}',
-                    //             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    //           ),
-                    //           Text(questionPaper[index]["Question"]),
-                    //           const SizedBox(height: 20),
-                    //           Column(
-                    //             children: [
-                    //               RadioListTile(
-                    //                 title: Text(questionPaper[index]['Option1']),
-                    //                 value: 'Option1',
-                    //                 groupValue: answers[index],
-                    //                 onChanged: (val) {
-                    //                   setState(() {
-                    //                     answers[index] = val!;                                    
-                    //                   });
-                    //                 },
-                    //               ),
-                    //               RadioListTile(
-                    //                 title: Text(questionPaper[index]['Option2']),
-                    //                 value: 'Option2',
-                    //                 groupValue: answers[index],
-                    //                 onChanged: (val) {
-                    //                   setState(() {
-                    //                     answers[index] = val!;                                    
-                    //                   });
-                    //                 },
-                    //               ),
-                    //               RadioListTile(
-                    //                 title: Text(questionPaper[index]['Option3']),
-                    //                 value: 'Option3',
-                    //                 groupValue: answers[index],
-                    //                 onChanged: (val) {
-                    //                     answers[index] = val!;                                    
-                    //                 },
-                    //               ),
-                    //               RadioListTile(
-                    //                 title: Text(questionPaper[index]['Option4']),
-                    //                 value: 'Option4',
-                    //                 groupValue: answers[index],
-                    //                 onChanged: (val) {
-                    //                   setState(() {
-                    //                     answers[index] = val!;                                    
-                    //                   });
-                    //                 },
-                    //               ),
-                    //             ]
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // );
-                  } else {
-                    return Expanded(
-                      child: Center(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const CircularProgressIndicator(),
-                              const SizedBox(height: 20.0),
-                              Text(
-                                'Please Wait while Questions are loading..',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                }
-              )
-            ],
-          ),
-        ),
+            ),
+          );
+        },
+      ),
       drawer: Drawer(
         child: SingleChildScrollView(
           child: Column(
@@ -599,65 +534,63 @@ class QuizQuestionWidget extends StatefulWidget {
 class _QuizQuestionWidgetState extends State<QuizQuestionWidget> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Question ${widget.index + 1}/${widget.noOfQuestions}',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              Text(widget.questionPaper[widget.index]["Question"] ?? ''),
-              const SizedBox(height: 20),
-              Column(
-                children: [
-                  RadioListTile(
-                    title: Text(widget.questionPaper[widget.index]['Option1'] ?? ''),
-                    value: 'Option1',
-                    groupValue: widget.answers[widget.index],
-                    onChanged: (val) {
-                      setState(() {
-                        widget.answers[widget.index] = val!;
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text(widget.questionPaper[widget.index]['Option2'] ?? ''),
-                    value: 'Option2',
-                    groupValue: widget.answers[widget.index],
-                    onChanged: (val) {
-                      setState(() {
-                        widget.answers[widget.index] = val!;
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text(widget.questionPaper[widget.index]['Option3'] ?? ''),
-                    value: 'Option3',
-                    groupValue: widget.answers[widget.index],
-                    onChanged: (val) {
-                      setState(() {
-                        widget.answers[widget.index] = val!;
-                      });
-                    },
-                  ),
-                  RadioListTile(
-                    title: Text(widget.questionPaper[widget.index]['Option4'] ?? ''),
-                    value: 'Option4',
-                    groupValue: widget.answers[widget.index],
-                    onChanged: (val) {
-                      setState(() {
-                        widget.answers[widget.index] = val!;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Question ${widget.index + 1}/${widget.noOfQuestions}',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Text(widget.questionPaper[widget.index]["Question"] ?? ''),
+            const SizedBox(height: 20),
+            Column(
+              children: [
+                RadioListTile(
+                  title: Text(widget.questionPaper[widget.index]['Option1'] ?? ''),
+                  value: 'Option1',
+                  groupValue: widget.answers[widget.index],
+                  onChanged: (val) {
+                    setState(() {
+                      widget.answers[widget.index] = val!;
+                    });
+                  },
+                ),
+                RadioListTile(
+                  title: Text(widget.questionPaper[widget.index]['Option2'] ?? ''),
+                  value: 'Option2',
+                  groupValue: widget.answers[widget.index],
+                  onChanged: (val) {
+                    setState(() {
+                      widget.answers[widget.index] = val!;
+                    });
+                  },
+                ),
+                RadioListTile(
+                  title: Text(widget.questionPaper[widget.index]['Option3'] ?? ''),
+                  value: 'Option3',
+                  groupValue: widget.answers[widget.index],
+                  onChanged: (val) {
+                    setState(() {
+                      widget.answers[widget.index] = val!;
+                    });
+                  },
+                ),
+                RadioListTile(
+                  title: Text(widget.questionPaper[widget.index]['Option4'] ?? ''),
+                  value: 'Option4',
+                  groupValue: widget.answers[widget.index],
+                  onChanged: (val) {
+                    setState(() {
+                      widget.answers[widget.index] = val!;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

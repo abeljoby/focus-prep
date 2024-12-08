@@ -90,7 +90,7 @@ class QBankState extends State<QBank> {
                           // expandedCrossAxisAlignment: CrossAxisAlignment.start,
                           shape: const Border(),
                           initiallyExpanded: false,
-                          title: Text("${data['Topic']}\n${data['Question']}", style: const TextStyle(fontWeight: FontWeight.bold)),
+                          title: Text("${data['Topic']}\n${data['Question']}", style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 2,overflow: TextOverflow.ellipsis),
                           // trailing: InkWell(
                           //   child: Text("Classroom Code: ${classData['Code']}",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                           //   onTap: () {
@@ -112,6 +112,7 @@ class QBankState extends State<QBank> {
                                   children: [
                                     // Text("${data['Topic']}\n${data['Question']}", style: const TextStyle(fontWeight: FontWeight.bold)),
                                     // const SizedBox(height: 8),
+                                    Text("${data['Question']}\n"),
                                     Text("1. ${data['Option1']}"),
                                     Text("2. ${data['Option2']}"),
                                     Text("3. ${data['Option3']}"),
