@@ -104,7 +104,53 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
   }
 
   void nextQuestion(int questionLength) {
+    print(index);
+    print(questionLength);
     if (index == questionLength - 1) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Submission"),
+          content: const Text("You have reached the last question. Do you want to submit your answers and end the test?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('CANCEL'),
+            ),
+            TextButton(
+              onPressed: () {
+                result = checkAnswers(questionPaper, answers);
+                final resultDoc = {
+                  "Answers": answers,
+                  "Result": result,
+                };
+                FirebaseFirestore.instance
+                    .collection("tests")
+                    .doc(testID)
+                    .collection("results")
+                    .doc(ktuID)
+                    .set(resultDoc);
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => ResultPage(
+                      id: testID,
+                      data: testData,
+                      ans: answers,
+                      res: result,
+                      email: emailID,
+                    ),
+                  ),
+                  ModalRoute.withName('/'),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Test completed and submitted.')),
+                );
+              },
+              child: const Text('SUBMIT'),
+            ),
+          ],
+        ),
+      );
     } else {
       setState(() {
         index++;

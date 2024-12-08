@@ -296,6 +296,7 @@ class _HomeStudentState extends State<HomeStudent> {
                 ),
                 ],
               ),
+              SizedBox(height:25)
             ],
           ),
         ),

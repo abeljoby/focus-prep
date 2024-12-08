@@ -2,7 +2,6 @@ import 'package:ccwassist/screens/generatepaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,12 +14,8 @@ class CreateTest extends StatefulWidget {
 class _CreateTestState extends State<CreateTest> {
   TextEditingController dateInput = TextEditingController();
   TextEditingController timeInput = TextEditingController();
-  final MultiSelectController _controller = MultiSelectController();
   final durations = ['15 min','30 min', '60 min'];
   final difficulties = {"Easy":"Moderate","Moderate":"Hard","Hard":"Very Difficult"};
-  final departments = {'CSE':'Computer Science and Engineering', 'ECE':'Electronics and Communications Engineering','EEE':'Electrical and Electronics Engineering', 'ME':'Mechanical Engineering', 'CE':'Civil Engineering'};
-  List<String> courses = [];
-  // final courses = {'DMS':'Discrete Mathematical Structures', 'DS':'Data Structures','COA':'Computer Organization and Architecture', 'DBMS':'Database Management Systems', 'OS':'Operating Systems', 'FLAT':'Formal Languages and Automata Theory'};
   String? selectedduration;
   String? selecteddifficulty;
   String? selectedclassroom;
@@ -42,6 +37,10 @@ class _CreateTestState extends State<CreateTest> {
   @override
   void initState() {
     loadUserDetails();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    dateInput.text = formattedDate; //set output date to TextField value.
+    TimeOfDay pickedTime = TimeOfDay.now();
+    timeInput.text = '${pickedTime.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}'; //set output date to TextField value.
     super.initState();
   }
 
