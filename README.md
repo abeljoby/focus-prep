@@ -1,6 +1,7 @@
 # Focus Prep
-## Sixth Semester College Mini Project
-A test creation and practice platform with AI-generated questions and answer validation
+A test creation and practice platform with AI-generated questions and answer validation.
+
+**Presented at UDYAMA 1.0 Project Expo, Thiruvananthapuram, India**
 ## Overview
 An innovative test creation and practice platform featuring AI-powered question generation and answer validation, designed to enhance learning experiences for students. Teachers can effortlessly conduct tests for students or students can engage in self-study by attempting tests tailored to their chosen topics. This platform is particularly valuable for students preparing for entrance exams or regular school and college assessments, providing a smarter and more efficient way to build familiarity with the process of writing tests.
 
